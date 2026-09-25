@@ -74,8 +74,7 @@
   path: (import_path) @string.special)
 
 (import_declaration
-  alias: (identifier) @variable
-)
+  alias: (identifier) @variable)
 
 (type_application
   name: [

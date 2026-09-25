@@ -1,0 +1,7 @@
+name = "Bend 2"
+grammar = "bend"
+path_suffixes = ["bend"]
+line_comments = ["#"]
+tab_size = 2
+hard_tabs = false
+increase_indent_pattern = ":\\s*$"

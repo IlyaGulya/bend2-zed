@@ -12,6 +12,10 @@ Network access is required for the first grammar and language-server install. Sy
 
 This extension uses the separate `bend2` ID because Zed already has a legacy `bend` extension. If both are installed and `.bend` files use the Bend 1 grammar, disable the legacy extension.
 
+## Verify syntax queries
+
+Run `python3 tests/check_highlights.py` to fetch the exact grammar revision and run its complete upstream parser corpus against the Zed highlight and bracket queries. The check fails if any non-whitespace corpus text lacks a Zed-supported capture or if match-expression and generic delimiters are unpaired. Requires Python 3.12+, Node.js/npm, and network access.
+
 ## Language-server scope
 
 `bend2-lsp` is the community Bend 2 server linked from the Bend project. The pinned release provides compiler diagnostics, syntax/documentation hover, and formatting. It does not provide completion, local-variable type hover, or go-to-definition. The extension pins version `0.1.0` because its Node.js `>=22` requirement is compatible with Zed's Node runtime; `0.1.1` adds import go-to-definition but requires Node.js `>=26.9`.

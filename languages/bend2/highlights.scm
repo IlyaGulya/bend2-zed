@@ -1,5 +1,7 @@
 ; Names and types
 (identifier) @variable
+((identifier) @variable @variable.special
+  (#eq? @variable.special "_"))
 
 ((identifier) @type
   (#match? @type "^[A-Z][A-Za-z0-9_]*$"))
@@ -72,7 +74,8 @@
   path: (import_path) @string.special)
 
 (import_declaration
-  alias: (identifier) @type)
+  alias: (identifier) @variable
+)
 
 (type_application
   name: [

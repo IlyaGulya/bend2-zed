@@ -2,7 +2,7 @@ use std::{env, path::PathBuf};
 use zed_extension_api::{self as zed, LanguageServerId, Result, Worktree};
 
 const PACKAGE_NAME: &str = "bend2-lsp";
-const PACKAGE_VERSION: &str = "0.1.0";
+const PACKAGE_VERSION: &str = "0.1.1";
 const SERVER_RELATIVE_PATH: &str = "node_modules/bend2-lsp/dist/server.js";
 
 struct Bend2Extension {

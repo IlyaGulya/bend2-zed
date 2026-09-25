@@ -5,7 +5,7 @@ This repository is a Zed development extension for Bend 2. It provides Tree-sitt
 ## Install locally
 
 1. In Zed, run `zed: install dev extension` and select this repository's root directory.
-2. Allow the extension to install the pinned `bend2-lsp` npm package when Zed requests it. The extension installs `bend2-lsp@0.1.0` through Zed's Node runtime; this release requires Node.js 22 or newer.
+2. Allow Zed to install the pinned `bend2-lsp@0.1.1` npm package through Zed's Node runtime.
 3. Open a `.bend` file. Zed fetches the pinned Bend 2 Tree-sitter grammar and builds it on first use.
 
 Network access is required for the first grammar and language-server install. Syntax highlighting works independently of the LSP. If npm installation is blocked by your Zed extension capabilities, allow npm installation for `bend2-lsp` in Zed's `granted_extension_capabilities` settings.
@@ -18,6 +18,6 @@ Run `python3 tests/check_highlights.py` to fetch the exact grammar revision and 
 
 ## Language-server scope
 
-`bend2-lsp` is the community Bend 2 server linked from the Bend project. The pinned release provides compiler diagnostics, syntax/documentation hover, and formatting. It does not provide completion, local-variable type hover, or go-to-definition. The extension pins version `0.1.0` because its Node.js `>=22` requirement is compatible with Zed's Node runtime; `0.1.1` adds import go-to-definition but requires Node.js `>=26.9`.
+`bend2-lsp@0.1.1` is the latest npm release. It provides compiler diagnostics, syntax/documentation hover, formatting, and go-to-definition for imports; it does not provide completion or local-variable type hover. npm declares Node.js `>=26.9.0`; startup was smoke-tested on Node `v22.5.1` and `v23.11.0`, and the server was reported working in Zed 1.21.0. Zed's selected Node runtime depends on its version and settings, so this does not guarantee every LSP request or every Zed configuration.
 
 The official `bend2-fmt-lsp` is formatting-only and is not published to npm, so it is not used here.

@@ -1,6 +1,6 @@
 # Bend 2 support for Zed
 
-This repository is a Zed development extension for Bend 2. It provides Tree-sitter syntax highlighting, `#` comments, indentation after `:`, bracket matching, and outline entries for definitions. It also installs and starts `bend2-lsp` for compiler diagnostics, hover, and formatting.
+This repository is a Zed development extension for Bend 2. It provides Tree-sitter syntax highlighting, `#` comments, indentation after `:`, bracket matching, and outline entries for definitions. It also installs and starts `bend2-lsp` for compiler diagnostics, hover, formatting, and go-to-definition for imports.
 
 ## Install locally
 

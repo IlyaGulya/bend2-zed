@@ -14,7 +14,7 @@ This extension uses the separate `bend2` ID because Zed already has a legacy `be
 
 ## Verify syntax queries
 
-Run `python3 tests/check_highlights.py` to fetch the exact grammar revision and run its complete upstream parser corpus against the Zed highlight and bracket queries. The check fails if any non-whitespace corpus text lacks a Zed-supported capture or if match-expression and generic delimiters are unpaired. Requires Python 3.12+, Node.js/npm, and network access.
+Run `python3 tests/check_highlights.py` to fetch the exact grammar revision and run its complete pinned parser corpus against the Zed highlight and bracket queries. The check fails if any non-whitespace corpus text lacks a Zed-supported capture or if match-expression and generic delimiters are unpaired. Requires Python 3.12+, Node.js/npm, and network access.
 
 ## Language-server scope
 

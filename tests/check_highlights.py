@@ -183,6 +183,57 @@ def assert_highlight_coverage(
     return ranges, total_source_bytes, captures
 
 
+def assert_named_field_highlights(
+    output: str,
+    cases: list[tuple[str, str]],
+    paths: list[Path],
+) -> None:
+    title = "Named constructor fields in application checker"
+    matching_indices = [
+        index
+        for index, (case_title, _) in enumerate(cases)
+        if case_title == title
+    ]
+    if len(matching_indices) != 1:
+        raise RuntimeError(
+            f"expected one {title!r} corpus case, got {len(matching_indices)}"
+        )
+
+    index = matching_indices[0]
+    data = cases[index][1].encode("utf-8")
+    line_starts = [0]
+    line_starts.extend(match.end() for match in re.finditer(b"\n", data))
+    expected = {
+        "namespace": "property",
+        "modules": "property",
+        "diagnostic": "property",
+        '"checker-dependent-application-ok"': "string",
+        '"checker-dependent-application-failed"': "string",
+    }
+    found = {text: set() for text in expected}
+    for line in query_blocks(output, paths)[paths[index]]:
+        capture = CAPTURE.search(line)
+        match = RANGE.search(line)
+        if not capture or not match:
+            continue
+        start_row, start_column, end_row, end_column = map(int, match.groups())
+        start = line_starts[start_row] + start_column
+        end = line_starts[end_row] + end_column
+        text = data[start:end].decode("utf-8")
+        if text in found:
+            found[text].add(capture.group(1))
+
+    missing = {
+        text: capture
+        for text, capture in expected.items()
+        if capture not in found[text]
+    }
+    if missing:
+        raise RuntimeError(
+            f"named constructor fields lack expected highlight captures: {missing}"
+        )
+
+
 def assert_brackets(
     blocks: dict[Path, list[str]],
     cases: list[tuple[str, str]],
@@ -275,6 +326,7 @@ def main() -> None:
             cwd=ROOT,
         )
         ranges, source_bytes, captures = assert_highlight_coverage(query_output, cases, paths)
+        assert_named_field_highlights(query_output, cases, paths)
 
         highlight_html = run_tree_sitter(
             [

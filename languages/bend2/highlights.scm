@@ -49,6 +49,12 @@
 (field_declaration
   name: (identifier) @property)
 
+(constructor_field
+  name: (identifier) @property)
+
+(constructor_pattern_field
+  name: (identifier) @property)
+
 (parameter
   name: (identifier) @variable.parameter)
 

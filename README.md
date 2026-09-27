@@ -1,12 +1,12 @@
 # Bend 2 support for Zed
 
-This repository is a Zed development extension for Bend 2. It provides Tree-sitter syntax highlighting, `#` comments, indentation after `:`, bracket matching, and outline entries for definitions. It also installs and starts `bend2-lsp` for compiler diagnostics, hover, formatting, and go-to-definition for imports.
+This repository is a Zed development extension for Bend 2. It provides Tree-sitter syntax highlighting for named constructor fields and patterns, call-expression match subjects, `#` comments, indentation after `:`, bracket matching, and outline entries for definitions. It also installs and starts `bend2-lsp` for compiler diagnostics, hover, formatting, and go-to-definition for imports.
 
 ## Install locally
 
 1. In Zed, run `zed: install dev extension` and select this repository's root directory.
 2. Allow Zed to install the pinned `bend2-lsp@0.1.1` npm package through Zed's Node runtime.
-3. Open a `.bend` file. Zed fetches the pinned Bend 2 Tree-sitter grammar and builds it on first use.
+3. Open a `.bend` file. Zed fetches the pinned grammar from `IlyaGulya/tree-sitter-bend2` and compiles it on first use.
 
 Network access is required for the first grammar and language-server install. Syntax highlighting works independently of the LSP. If npm installation is blocked by your Zed extension capabilities, allow npm installation for `bend2-lsp` in Zed's `granted_extension_capabilities` settings.
 

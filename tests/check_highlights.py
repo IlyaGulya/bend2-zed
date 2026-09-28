@@ -48,12 +48,48 @@ def run_tree_sitter(args: list[str], cwd: Path) -> str:
 
 
 def fetch_grammar(repo: str, revision: str, destination: Path) -> Path:
-    url = f"https://codeload.github.com/{repo}/tar.gz/{revision}"
-    request = urllib.request.Request(url, headers={"User-Agent": "bend2-zed-corpus-test"})
-    with urllib.request.urlopen(request, timeout=60) as response:
-        archive_data = response.read()
+    local_repo = ROOT / "grammars" / "bend"
+    archive_data = None
+    archive_mode = "r:"
+    if local_repo.is_dir():
+        local_remote = subprocess.run(
+            ["git", "-C", str(local_repo), "remote", "get-url", "origin"],
+            capture_output=True,
+            text=True,
+            check=False,
+            env={**os.environ, "GIT_CONFIG_GLOBAL": os.devnull},
+        )
+        if local_remote.returncode == 0 and local_remote.stdout.strip() == repo:
+            local_archive = subprocess.run(
+                [
+                    "git",
+                    "-C",
+                    str(local_repo),
+                    "archive",
+                    "--format=tar",
+                    "--prefix=tree-sitter-bend2/",
+                    revision,
+                ],
+                capture_output=True,
+                check=False,
+            )
+            if local_archive.returncode == 0:
+                archive_data = local_archive.stdout
 
-    with tarfile.open(fileobj=io.BytesIO(archive_data), mode="r:gz") as archive:
+    if archive_data is None:
+        if repo.startswith("https://github.com/"):
+            repository = repo.removeprefix("https://github.com/").removesuffix(".git")
+        elif repo.startswith("git@github.com:"):
+            repository = repo.removeprefix("git@github.com:").removesuffix(".git")
+        else:
+            raise RuntimeError(f"unsupported grammar repository URL: {repo}")
+        url = f"https://codeload.github.com/{repository}/tar.gz/{revision}"
+        request = urllib.request.Request(url, headers={"User-Agent": "bend2-zed-corpus-test"})
+        with urllib.request.urlopen(request, timeout=60) as response:
+            archive_data = response.read()
+        archive_mode = "r:gz"
+
+    with tarfile.open(fileobj=io.BytesIO(archive_data), mode=archive_mode) as archive:
         members = []
         for member in archive.getmembers():
             path = PurePosixPath(member.name)
@@ -234,6 +270,49 @@ def assert_named_field_highlights(
         )
 
 
+def assert_error_recovery_highlights(grammar_dir: Path, highlights: Path, inputs_dir: Path) -> None:
+    source = (
+        "def broken():\n"
+        "  match x:\n"
+        "    case True{}:\n"
+        '      row = String.append("a", String.append("b", String.append("c", String.append("d", "e"))\n'
+        "    case False{}: 0n\n"
+        "def after():\n"
+        "  match x:\n"
+        "    case True{}: 1n\n"
+        "    case False{}: 0n\n"
+    )
+    path = inputs_dir / "unfinished-case-call.bend"
+    path.write_text(source, encoding="utf-8")
+    output = run_tree_sitter(
+        ["query", "--grammar-path", str(grammar_dir), "--captures", str(highlights), str(path)],
+        cwd=ROOT,
+    )
+    keyword_cases = {
+        int(match.group(1))
+        for line in output.splitlines()
+        if (match := re.search(r" - keyword, start: \((\d+), 4\), end: \(\d+, 8\), text: `case`", line))
+    }
+    if keyword_cases != {2, 4, 7, 8}:
+        raise RuntimeError(f"match arms after an unfinished call lost keyword highlighting: {keyword_cases}")
+    expected_after = {
+        ("keyword", "def", 0, 3),
+        ("function", "after", 4, 9),
+    }
+    observed_after = {
+        (capture.group(1), capture.group(4), int(capture.group(2)), int(capture.group(3)))
+        for line in output.splitlines()
+        if (
+            capture := re.search(
+                r" - ([a-z.]+), start: \(5, (\d+)\), end: \(5, (\d+)\), text: `([^`]+)`",
+                line,
+            )
+        )
+    }
+    if not expected_after <= observed_after:
+        raise RuntimeError("the declaration after an unfinished call lost its keyword or function capture")
+
+
 def assert_brackets(
     blocks: dict[Path, list[str]],
     cases: list[tuple[str, str]],
@@ -291,7 +370,7 @@ def main() -> None:
 
     manifest = tomllib.loads((ROOT / "extension.toml").read_text(encoding="utf-8"))
     grammar = manifest["grammars"]["bend"]
-    repository = grammar["repository"].removeprefix("https://github.com/").removesuffix(".git")
+    repository = grammar["repository"]
     revision = grammar["rev"]
 
     with tempfile.TemporaryDirectory(prefix="bend2-highlight-test-") as temporary:
@@ -327,6 +406,7 @@ def main() -> None:
         )
         ranges, source_bytes, captures = assert_highlight_coverage(query_output, cases, paths)
         assert_named_field_highlights(query_output, cases, paths)
+        assert_error_recovery_highlights(grammar_dir, highlights, inputs_dir)
 
         highlight_html = run_tree_sitter(
             [

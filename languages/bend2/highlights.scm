@@ -179,6 +179,13 @@
   "is"
 ] @keyword
 
+; Recovery can turn keywords after an unfinished expression into identifiers.
+; Keep their token colors without coloring the enclosing ERROR as valid code.
+((ERROR (identifier) @keyword)
+  (#any-of? @keyword
+    "def" "law" "type" "match" "case" "do" "return" "import" "as"
+    "for" "exs" "where" "is"))
+
 ; Operators
 [
   "&"
@@ -191,6 +198,7 @@
   ">="
   "<>"
   "++"
+  ".."
   "<&>"
   ".|."
   ".^."

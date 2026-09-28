@@ -1,13 +1,13 @@
 id = "bend2"
 name = "Bend 2"
-version = "0.1.1"
+version = "0.1.2"
 schema_version = 1
 description = "Bend 2 syntax highlighting and language server support for Zed."
 repository = "https://github.com/IlyaGulya/bend2-zed"
 
 [grammars.bend]
 repository = "https://github.com/IlyaGulya/tree-sitter-bend2"
-rev = "c05522e198d37b4f21cbb08f33700ccc954a13ce"
+rev = "7a55a8fba3b32b0b6a8ddb0c93cf70530ded13f8"
 
 [language_servers.bend2]
 name = "Bend 2 Language Server"

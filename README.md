@@ -6,9 +6,9 @@ This repository is a Zed development extension for Bend 2. It provides Tree-sitt
 
 1. In Zed, run `zed: install dev extension` and select this repository's root directory.
 2. Allow Zed to install the pinned `bend2-lsp@0.1.1` npm package through Zed's Node runtime.
-3. Open a `.bend` file. Zed loads and compiles the grammar from the local checkout pinned in `extension.toml`.
+3. Open a `.bend` file. Zed fetches and compiles the published grammar revision pinned in `extension.toml`.
 
-The grammar repository URL matches the existing grammar clone's stored GitHub URL, so Zed can reuse its local revision. That grammar commit is not published; fresh clones cannot install it until it is pushed. Push the commit and keep the HTTPS GitHub URL before publishing. Network access is required for the first language-server install. Syntax highlighting works independently of the LSP. If npm installation is blocked by your Zed extension capabilities, allow npm installation for `bend2-lsp` in Zed's `granted_extension_capabilities` settings.
+Network access is required for the first grammar fetch and language-server install. Syntax highlighting works independently of the LSP. If npm installation is blocked by your Zed extension capabilities, allow npm installation for `bend2-lsp` in Zed's `granted_extension_capabilities` settings.
 
 This extension uses the separate `bend2` ID because Zed already has a legacy `bend` extension. If both are installed and `.bend` files use the Bend 1 grammar, disable the legacy extension.
 

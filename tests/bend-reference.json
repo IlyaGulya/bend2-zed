@@ -1,0 +1,26 @@
+{
+  "version": "2.0.35",
+  "tag": "v2.0.35",
+  "repository": "https://github.com/bendlang/bend",
+  "commit": "79df8d9c40722ee9507a1e253f283b51025f9d6c",
+  "tag_evidence": "https://api.github.com/repos/bendlang/bend/git/ref/tags/v2.0.35",
+  "archive_url": "https://codeload.github.com/bendlang/bend/tar.gz/79df8d9c40722ee9507a1e253f283b51025f9d6c",
+  "archive_sha256": "ad7ac21c0145dacaab012ff6fc6c359e57f956cd6940cf5bd94a1b8b12745949",
+  "scope": "Every .bend file in the official tagged archive, including bench, bend2, demos, evals, and tests. This is a tested target, not a claim of complete grammar support for this release.",
+  "corpus": {
+    "files": 1644,
+    "bytes": 13507694,
+    "sha256": "a36b7804d083707614566a9d75221dadac3e4b9cd7a9955e49a5d56b64a12e54",
+    "hash_algorithm": "SHA256 of concatenated UTF-8 relative POSIX path + NUL + ASCII file SHA256 + newline, sorted by relative path"
+  },
+  "anchors": [
+    {
+      "file": "bend2/base.bend",
+      "sha256": "c742fae9c49b14f0cc9128429a2c6109364c8a933a142f2c90b9f2e5fd976661"
+    },
+    {
+      "file": "bend2/bend.ts",
+      "sha256": "7deae3693eb896f33c73867081b99d2c6f3ed3b57e77e55eb5f6260840dd0e63"
+    }
+  ]
+}

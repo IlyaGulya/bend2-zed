@@ -1,3 +1,6 @@
 /target/
 /extension.wasm
 /grammars/
+/.venv/
+/tests/__pycache__/
+/build/

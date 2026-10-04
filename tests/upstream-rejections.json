@@ -1,0 +1,1406 @@
+{
+  "reference_commit": "79df8d9c40722ee9507a1e253f283b51025f9d6c",
+  "review_complete": true,
+  "policy": "Every observed rejection was reviewed against the pinned official parser and source. Malformed syntax is an expected rejection. Valid-source grammar gaps remain failing compatibility cases, never exemptions. New rejections and previously rejected fixtures becoming accepted require explicit review. Diagnostic mode never updates this baseline.",
+  "reviews": [
+    {
+      "file": "tests/check/array_boxed_default.bend",
+      "sha256": "b740b025577f0ba1bff0bea779301915efefaae6c75956556e4920de46e8981a",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'h = (![0:PW{3,4}, _:PW{1,2}; 1] : [:P])'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/check/array_boxed_default.bend:24",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/check/array_boxed_default.bend: - expected : a term; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/check/array_default_distinct.bend",
+      "sha256": "6249bb4533a3f2e123c17f24478fcef031227a13df11c74249422bbd88b2d1cc",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in '{![0:1, _:7; 1] == ![0:1, _:8; 1] : [:U32]}'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/check/array_default_distinct.bend:9",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/check/array_default_distinct.bend: - expected : a term; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/check/array_default_linear.bend",
+      "sha256": "d0d09e4ecb88278b1823673c776cbc345c5144532945ba7780f8b8db7e4aee6b",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'old = ![_:x; 1]@buf[0] <- TokB{}'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/check/array_default_linear.bend:19",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/check/array_default_linear.bend: - expected : a term; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/check/array_element_data.bend",
+      "sha256": "5fe975e6abdaff0886f2a0193463c738f68285537fb0fc67d6745802f70d36c9",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'for a: [:U32 -> U32]'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/check/array_element_data.bend:9,19",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/check/array_element_data.bend: - expected : a term; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/check/array_get_copy.bend",
+      "sha256": "39829a851fac8f0a5253be2fe6b731e6ada967ab605a19f44fb482cdc5e7b8b7",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'b = (![0:5, _:0; 1] : [:U32])'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/check/array_get_copy.bend:12",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/check/array_get_copy.bend: - expected : a term; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/check/array_get_neutral.bend",
+      "sha256": "33c16b6e7699aee3dd2c44e29f0c9dd32a34ee2b4c25f5039661372ee10bd4d3",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'for a: [:U32]'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/check/array_get_neutral.bend:8",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/check/array_get_neutral.bend: - expected : a term; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/check/array_get_word_only.bend",
+      "sha256": "9b792c75d77a3c0db207673b827f5f06fab69490e8028c49ac28260af5f565d9",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'for xs: [:Box2]'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/check/array_get_word_only.bend:11",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/check/array_get_word_only.bend: - expected : a term; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/check/array_literal_capacity.bend",
+      "sha256": "2fca3aa21d7bf3a54cb9f7f12ae053a2fde4708f181987e73b91d99652fd60ab",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'old = ![_:9; 1]@m[0] <- 5'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/check/array_literal_capacity.bend:12",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/check/array_literal_capacity.bend: - expected : a term; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/check/array_literal_mismatch.bend",
+      "sha256": "02b107416b8ebc312b12df7e41ec820728cb7ac4002ae4c05a1dffeaf551c888",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'm = (![0:5, _:0; 1] : U32)'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/check/array_literal_mismatch.bend:11",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/check/array_literal_mismatch.bend: - expected : a term; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/check/array_never_copyable.bend",
+      "sha256": "8f3ce807f39fabd805d0448bc25f5df5288ed1b7fc13ba18897fb808e5b69596",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'for a: [:U32]'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/check/array_never_copyable.bend:12,13,19,22,25",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/check/array_never_copyable.bend: - expected : a term; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/check/array_not_data.bend",
+      "sha256": "dab76577cb595324559ddc85faff7fbe3d039b51c4021219ccd5e6d811f22b8c",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'for a: [:U32]'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/check/array_not_data.bend:9,10,22",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/check/array_not_data.bend: - expected : a term; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/check/array_set_neutral_000.bend",
+      "sha256": "bf4e66b4d3e9bd12c2d817a31d72f231e571736cdb929261b4df577c953e34a6",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'for a: [:U32]'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/check/array_set_neutral_000.bend:8,9",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/check/array_set_neutral_000.bend: - expected : a term; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/check/array_set_neutral_001.bend",
+      "sha256": "c4fed6f849f8f89a7bf0e5f3ed5da4c33ff4eff644fe236e0a89989f865cb0c0",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'for a: [:U32]'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/check/array_set_neutral_001.bend:8",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/check/array_set_neutral_001.bend: - expected : a term; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/check/axiom_runtime_capture.bend",
+      "sha256": "0682afc1c4ab82cc6b6266fb6532494318d7c22f363c77a9c887e58c14e9b934",
+      "classification": "valid-source-grammar-gap",
+      "reason": "The law tpl has leading for ~f: U32 -> U32 and the caller passes a lambda referring to the unfilled magic law. An axiom/runtime-capture safety failure concerns checking/specialization, not the syntax of this template clause or lambda. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/check/axiom_runtime_capture.bend:9-24",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/check/axiom_runtime_capture.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/check/buffer_word_range.bend",
+      "sha256": "077a169d63a6bb0e5842abf7150a1f4a6c3fe4d0c129d77ff8404747a6f0e273",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'x = (![4294967295:7,_:0;4294967296] : [:U32])@buf[4294967295]'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/check/buffer_word_range.bend:12",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/check/buffer_word_range.bend: - expected : a term; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/check/comp_splice_tuple_goal.bend",
+      "sha256": "bbc91497472971e09640cc01a1b91073f7cb3fa73296f7fe891d0aae4cdf1467",
+      "classification": "valid-source-grammar-gap",
+      "reason": "The source has valid leading law-template clause for ~f and valid tuple destructuring (a, b) = wrap(...) followed by an annotated sum. Direct official parse_body parses the complete main body as a Local with a tuple PCtr pattern and App value, consuming all non-comment source. The full load then rejects the computed scrutinee in body_flatten/match_flatten: this is a flattening restriction, not malformed syntax. Tree-sitter rejects the valid ~ clause; the grammar gap must fail the gate.",
+      "evidence": [
+        "tests/check/comp_splice_tuple_goal.bend:12-25",
+        "bend2/bend.ts:2179-2192,2286-2350,2542-2582,2634-2657,2734-2740",
+        "Official parse_body of main: Local/PCtr/App; all remaining source is comments; book_load fails only at body_flatten/match_flatten computed-scrutinee restriction"
+      ]
+    },
+    {
+      "file": "tests/check/data_table_checked_000.bend",
+      "sha256": "6366d2f73416018e5cccad9f8f7e22281b00fbfcd529ae4356c802fa09fde0ff",
+      "classification": "malformed-syntax",
+      "reason": "The declaration type D2<result: Type>: omits the mandatory is <kind> before its colon. The full official load first encounters a duplicate String.eq declaration from Base, which is not used as syntax evidence; parsing this exact datatype declaration separately produces expected is, observed colon. The missing datatype-kind syntax independently makes the whole fixture malformed.",
+      "evidence": [
+        "tests/check/data_table_checked_000.bend:19-20",
+        "bend2/bend.ts:2512-2521",
+        "Official book_load of tests/check/data_table_checked_000.bend rejects before checking/runtime; exact D2 declaration separately exercised: expected is, observed colon"
+      ]
+    },
+    {
+      "file": "tests/check/erased_match_numeric.bend",
+      "sha256": "bb49a804547cf28d8d51a35a1bcdd9b7f6231ca0d321b76d8704f6245eddf0d8",
+      "classification": "malformed-syntax",
+      "reason": "The lambda-match arm \\{0: 0; (1)} uses a numeric literal as its labelled arm. Official lambda-match parsing permits the arm colon only after a Var/Ref constructor name; after the numeric term it instead expects the closing brace and observes a colon. This is invalid arm syntax, irrespective of erased-match checking.",
+      "evidence": [
+        "tests/check/erased_match_numeric.bend:10-11",
+        "bend2/bend.ts:1828-1855",
+        "Official book_load of tests/check/erased_match_numeric.bend rejects before checking/runtime; - expected : '}'; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/check/float_no_mod.bend",
+      "sha256": "11dcf2d096de7513736e2dec2f37050fecfa30da5bee00b5eb19e26d5906ff2e",
+      "classification": "malformed-syntax",
+      "reason": "5.5 .%. 2.0 uses the removed dotted modulo operator .%.. The official INFIX table only supplies %, not .%.; parsing stops after 5.5 and book parsing rejects the remaining dot as a top-level declaration. This is a removed operator spelling, not merely an unsupported F32 modulo operation.",
+      "evidence": [
+        "tests/check/float_no_mod.bend:8-9",
+        "bend2/bend.ts:1976-2000,2079-2095,2585",
+        "Official book_load of tests/check/float_no_mod.bend rejects before checking/runtime; - expected : 'def', 'type' or 'law'; - observed : '.'"
+      ]
+    },
+    {
+      "file": "tests/check/list_map_conversion.bend",
+      "sha256": "3de17ee9ecb61062ca2e9b3949ee443c5793f017eb2c16d9ba2b5c288fc5d9e5",
+      "classification": "malformed-syntax",
+      "reason": "The equality proposition uses a single = in {LL.length(...) = 2n : Nat}, and its proof uses {=}. The official braced term syntax accepts ==/!= for equality and {==} for reflexivity, not either old spelling. The actual parser expects the annotation colon and observes = at the proposition, before conversion checking.",
+      "evidence": [
+        "tests/check/list_map_conversion.bend:31-35",
+        "bend2/bend.ts:1883-1905",
+        "Official book_load of tests/check/list_map_conversion.bend rejects before checking/runtime; - expected : ':'; - observed : '='"
+      ]
+    },
+    {
+      "file": "tests/check/list_not_array.bend",
+      "sha256": "1566d5f3b1c08f8b144a467e9e3fb1a8a92909d6263e54072bae86255892f3fd",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in '{[x] == [x] : [:U32]}'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/check/list_not_array.bend:8",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/check/list_not_array.bend: - expected : a term; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/check/typed_let_mismatch.bend",
+      "sha256": "c3c6ec82018aa9247f71e6211e9be6e9361807baab53d91c0d0b5a4e3438d604",
+      "classification": "valid-source-grammar-gap",
+      "reason": "z : Nat = 30 is supported typed-let syntax; parse_body constructs an annotation on the binding value. The numeric literal/type mismatch, if rejected by checking, is not malformed syntax. The official book_load accepts the entire unchanged file, while tree-sitter rejects the colon. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/check/typed_let_mismatch.bend:4-6",
+        "bend2/bend.ts:2286-2350",
+        "Official book_load of tests/check/typed_let_mismatch.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/check/undo_residual_lane.bend",
+      "sha256": "c4b4082345bd992008f226d8d5e395dbf81f68b64dc83b80edb6d7cf930b0ad2",
+      "classification": "malformed-syntax",
+      "reason": "The lambda match \\{0: 0; 1+: f(y)} contains numeric-labelled arms (and the removed 1+ arm spelling). A colon-labelled official lambda-match arm must follow a constructor name Var/Ref. The parser expects } after the numeric 0 and observes :, before residual-lane checking.",
+      "evidence": [
+        "tests/check/undo_residual_lane.bend:7-8",
+        "bend2/bend.ts:1828-1855",
+        "Official book_load of tests/check/undo_residual_lane.bend rejects before checking/runtime; - expected : '}'; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/check/unit_ctor_mismatch.bend",
+      "sha256": "c0c00d77aba9a31d1ad1f67f7a12bb098bdcef4c55980ea14cb21487fe0c0b3f",
+      "classification": "malformed-syntax",
+      "reason": "def main(): () uses empty-parenthesis unit sugar. Official parenthesis parsing always parses a body/term before closing ), so it rejects the immediate ) as not a term. Unit is constructed by a named constructor; the fixture is malformed regardless of the U32 result mismatch.",
+      "evidence": [
+        "tests/check/unit_ctor_mismatch.bend:6-9",
+        "bend2/bend.ts:1907-1910,2179-2192,2311-2314",
+        "Official book_load of tests/check/unit_ctor_mismatch.bend rejects before checking/runtime; - expected : a term; - observed : ')'"
+      ]
+    },
+    {
+      "file": "tests/check/unit_paren_sugar.bend",
+      "sha256": "84d969b044db2ac84306393066f4078e8960deb4f56e4bbbb695f02567880f76",
+      "classification": "malformed-syntax",
+      "reason": "The match pattern case (): uses the removed empty-parenthesis unit sugar. Official parentheses require an initial body/term; the actual parser rejects ) as not a term before pattern conversion or checker behavior.",
+      "evidence": [
+        "tests/check/unit_paren_sugar.bend:9-12",
+        "bend2/bend.ts:1907-1910,2179-2192,2299-2305",
+        "Official book_load of tests/check/unit_paren_sugar.bend rejects before checking/runtime; - expected : a term; - observed : ')'"
+      ]
+    },
+    {
+      "file": "tests/compile/array_oob_access.bend",
+      "sha256": "07020b32af1fbd676611b77f412976caf2583c80ead076192d75b737d71d949f",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'wrd = (![0: 10, 1: 20, _: 7; 2] : [:U32])'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/compile/array_oob_access.bend:11",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/compile/array_oob_access.bend: - expected : a term; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/compile/array_padding_slots.bend",
+      "sha256": "4604b1467e93b518adf81c0d53e876dd07f0d989b7ca60cb8e19938deb2b97b0",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'b = (![0:P4{1,2}, 1:P4{3,4}, _:N4{}; 8] : [:P4])'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/compile/array_padding_slots.bend:14",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/compile/array_padding_slots.bend: - expected : a term; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/compile/array_unboxed_default.bend",
+      "sha256": "34f3f648888d7c5b920394dac6a04f20d45fc85b2e5099fc6b618e3fa4b0db9e",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'h = (![0:W4{5}, _:W4{7}; 1] : [:W4])'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/compile/array_unboxed_default.bend:13",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/compile/array_unboxed_default.bend: - expected : a term; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/compile/slab_drop_recycle.bend",
+      "sha256": "0402a8fc2b004a5e90664d821990a86ba3d030a3c1127175097609fe5c366bc1",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'b = (![0:1, 131071:2, _:9; 131072] : [:U32])'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/compile/slab_drop_recycle.bend:10",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/compile/slab_drop_recycle.bend: - expected : a term; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/compile/slab_lazy_alloc.bend",
+      "sha256": "f563ac5acca59a94dcdd796c3714c8cf493d483e95d649edeb957a55252783d7",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'a = (![70000: 9, _: 1; 131072] : [:U32])'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/compile/slab_lazy_alloc.bend:10",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/compile/slab_lazy_alloc.bend: - expected : a term; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/compile/slab_sparse_default.bend",
+      "sha256": "f8815660c700e0d64cf08e4800b6b31a2e8a8baaf2dcf9055de9e35e0b7a32ec",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'm = (![0:P5{1,2}, 100000:P5{3,4}, _:N5{}; 131072] : [:P5])'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/compile/slab_sparse_default.bend:14",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/compile/slab_sparse_default.bend: - expected : a term; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/comptime/err_fill_short.bend",
+      "sha256": "561e88657411b63b4342efc9ab45b8e3c66e05698028b88159fa1deee43801dd",
+      "classification": "malformed-syntax",
+      "reason": "law F declares two leading template clauses (~f and ~g), but def F(f): supplies only one binding name. Filling a law requires a name for each template clause as part of parse_def; the actual parse rejects the definition with expected a name for each ~ clause of the law (2). This is the explicit definition-binding syntax invariant, not a later argument type/runtime failure.",
+      "evidence": [
+        "tests/comptime/err_fill_short.bend:9-18",
+        "bend2/bend.ts:2431-2454",
+        "Official book_load of tests/comptime/err_fill_short.bend rejects before checking/runtime; - expected : a name for each ~ clause of the law (2); - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/comptime/err_law.bend",
+      "sha256": "09c6285164b4c03a792aa4dc833576d41fc629b070dbe8ac73cb7b85864d2ff4",
+      "classification": "malformed-syntax",
+      "reason": "def app(~f, x): repeats ~ in a law-filling definition even though law app has ordinary for f/for x clauses. The pinned parser specifically rejects ~ at the start of any law-filling parameter list; that definition must bind plain names. Its actual diagnostic is expected a name at ~, not a checker failure.",
+      "evidence": [
+        "tests/comptime/err_law.bend:4-10",
+        "bend2/bend.ts:2431-2445",
+        "Official book_load of tests/comptime/err_law.bend rejects before checking/runtime; - expected : a name; - observed : '~'"
+      ]
+    },
+    {
+      "file": "tests/comptime/err_untyped.bend",
+      "sha256": "e4883784ce5492fd022b2202a6927345cd8f5280f6fbb00e0a522119a8884d56",
+      "classification": "malformed-syntax",
+      "reason": "def app(~f, x: Nat) -> Nat: has an untyped leading template binder ~f. parse_tele treats ~ binders as non-bare and requires a colon followed by their type; it observes the comma after f instead. This is missing binder-type syntax, not an untyped-template checker diagnostic.",
+      "evidence": [
+        "tests/comptime/err_untyped.bend:4-8",
+        "bend2/bend.ts:2386-2413",
+        "Official book_load of tests/comptime/err_untyped.bend rejects before checking/runtime; - expected : ':'; - observed : ','"
+      ]
+    },
+    {
+      "file": "tests/comptime/law.bend",
+      "sha256": "d2ae80cfb9b2bfe885a50f4dc131669e364d7feccb0776c9f45274bf03b330d4",
+      "classification": "valid-source-grammar-gap",
+      "reason": "law twice has a leading template clause for ~f: Nat -> Nat, and both call sites use ~-prefixed template arguments. These are supported law-template and call forms, not syntax errors. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/comptime/law.bend:6-17",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/comptime/law.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/comptime/law_two.bend",
+      "sha256": "6af770922b76879f415a0645c40e637afa46463c847687f7c4afa30841d1176d",
+      "classification": "valid-source-grammar-gap",
+      "reason": "law F has two contiguous leading template clauses for ~f and for ~g, def F(f, g) binds both names, and its caller supplies both ~ arguments. The current leading-prefix and binding-name rules are satisfied. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/comptime/law_two.bend:8-17",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/comptime/law_two.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/cost/array_fill_readback.bend",
+      "sha256": "b386911b3bc8e9333ab7180b64e96863f41d6e5d381c7c4e194ef3691abf2506",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'm : [:U32] = ![31:0, _:0; 32]'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/cost/array_fill_readback.bend:11",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/cost/array_fill_readback.bend: - expected : a term; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/flatten/arrow_bind_error_000.bend",
+      "sha256": "35405aa8eee96c6602b4aef7751c35570e45c14a2974d8094348d5f777b43cc1",
+      "classification": "malformed-syntax",
+      "reason": "Pp{a, b} <- k is an arrow-binding statement outside a do block. The ordinary body parser supports = bindings; <- has negative precedence and is only explicitly consumed by do statements or array updates. The actual parser stops after the constructor term and rejects the remaining < as an invalid top-level declaration.",
+      "evidence": [
+        "tests/flatten/arrow_bind_error_000.bend:13-15",
+        "bend2/bend.ts:1976-1978,2086-2091,2255-2268,2311-2338",
+        "Official book_load of tests/flatten/arrow_bind_error_000.bend rejects before checking/runtime; - expected : 'def', 'type' or 'law'; - observed : '<'"
+      ]
+    },
+    {
+      "file": "tests/flatten/arrow_bind_error_001.bend",
+      "sha256": "d7f9c34ebf308b49587c5baf64c0297df52d6b68c05b9e95c52c48e601114c8e",
+      "classification": "malformed-syntax",
+      "reason": "x <- g is an arrow-binding statement outside a do block. Ordinary bodies bind with =, not <-; the actual parser stops at the arrow and rejects < as a top-level declaration. The continuation/flattening behavior cannot turn this removed statement syntax into valid source.",
+      "evidence": [
+        "tests/flatten/arrow_bind_error_001.bend:10-12",
+        "bend2/bend.ts:1976-1978,2086-2091,2255-2268,2311-2338",
+        "Official book_load of tests/flatten/arrow_bind_error_001.bend rejects before checking/runtime; - expected : 'def', 'type' or 'law'; - observed : '<'"
+      ]
+    },
+    {
+      "file": "tests/flatten/cid_pair_repr.bend",
+      "sha256": "74b548c6672c2aa7d25b8b963ba272673c01fe098a4b00521a0f089ca900a30a",
+      "classification": "malformed-syntax",
+      "reason": "def wrap<A>(x): uses removed angle-bracket generic definition parameters. parse_def requires ( immediately after the definition name/optional ? and observes < instead. Type families may have angle parameters, but defs may not; representation checking is never reached.",
+      "evidence": [
+        "tests/flatten/cid_pair_repr.bend:10-16",
+        "bend2/bend.ts:2431-2445",
+        "Official book_load of tests/flatten/cid_pair_repr.bend rejects before checking/runtime; - expected : '('; - observed : '<'"
+      ]
+    },
+    {
+      "file": "tests/flatten/generic_type_param.bend",
+      "sha256": "0a3005f267864108d8df4b6dbd4aabb50e3185ccd91a69e56297228e49280e17",
+      "classification": "malformed-syntax",
+      "reason": "def swap<A, B>(p): uses removed angle-bracket generic definition parameters. The official parse_def requires ( after swap and observes <; erased/type binders belong in the ordinary def telescope/law clauses, not a separate angle list.",
+      "evidence": [
+        "tests/flatten/generic_type_param.bend:10-19",
+        "bend2/bend.ts:2431-2445",
+        "Official book_load of tests/flatten/generic_type_param.bend rejects before checking/runtime; - expected : '('; - observed : '<'"
+      ]
+    },
+    {
+      "file": "tests/flatten/inline_block_error.bend",
+      "sha256": "2072bf697c3b874f985b15783deab929f4fa19edfeff6889c3581a85ccec7268",
+      "classification": "malformed-syntax",
+      "reason": "def blk(): {a = 7; a} treats braces as a statement block. Official braces are annotation/equality terms, so after a the parser requires : (or an equality operator) and observes =. The actual load rejects this syntax before any inline-block flattening.",
+      "evidence": [
+        "tests/flatten/inline_block_error.bend:7-10",
+        "bend2/bend.ts:1883-1905",
+        "Official book_load of tests/flatten/inline_block_error.bend rejects before checking/runtime; - expected : ':'; - observed : '='"
+      ]
+    },
+    {
+      "file": "tests/flatten/mark_computed_optout.bend",
+      "sha256": "20a7006dfba6863ea037ea345fa4ba47c075f9bc7e7bde974188fe00ecb684f4",
+      "classification": "malformed-syntax",
+      "reason": "match n!: uses the removed postfix ! scrutinee mark. The official suffix parser accepts !( only for named-def offloads; ! before : is not a suffix or term. The actual parser reports expected a term at ! while reading the match heading.",
+      "evidence": [
+        "tests/flatten/mark_computed_optout.bend:10-15",
+        "bend2/bend.ts:2022-2033,2371-2380",
+        "Official book_load of tests/flatten/mark_computed_optout.bend rejects before checking/runtime; - expected : a term; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/flatten/share_binder_syntax.bend",
+      "sha256": "d987904bf1f1c200df13ac590b0317de65f6bc5fc6b2be7eaeb209538b26ccf0",
+      "classification": "malformed-syntax",
+      "reason": "&y = v uses removed shared-binder statement syntax. & heads an existential quantifier and requires a binder type introduced by :, so parse_term_all observes = instead of the required colon. This is not a quantity/checker rejection of an otherwise valid binding.",
+      "evidence": [
+        "tests/flatten/share_binder_syntax.bend:13-15",
+        "bend2/bend.ts:1804-1812,2160-2175",
+        "Official book_load of tests/flatten/share_binder_syntax.bend rejects before checking/runtime; - expected : ':'; - observed : '='"
+      ]
+    },
+    {
+      "file": "tests/flatten/statement_beta.bend",
+      "sha256": "308a03226c9a032cf4588d36116a7031d364f823ba5f9b45f558ea00d20d3731",
+      "classification": "malformed-syntax",
+      "reason": "usem(\\{0: 9; n => ...}) contains the removed numeric lambda-match arm spelling. Official colon arms must be constructor names (Var/Ref), not a literal 0; the actual parser expects } and observes :, before statement beta reduction.",
+      "evidence": [
+        "tests/flatten/statement_beta.bend:18-19",
+        "bend2/bend.ts:1828-1855",
+        "Official book_load of tests/flatten/statement_beta.bend rejects before checking/runtime; - expected : '}'; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/flatten/statement_lam_absorb.bend",
+      "sha256": "22a176bedee1ac04d1824074bf5a9e9f1b8673fb299d487c2195c471b6627ce4",
+      "classification": "malformed-syntax",
+      "reason": "\\{0: eat(p, 7); n => eat(p, n)} contains a numeric colon-labelled lambda-match arm. The official parser only accepts named constructor labels and rejects : after 0 with expected }, before capture/absorption semantics.",
+      "evidence": [
+        "tests/flatten/statement_lam_absorb.bend:23-25",
+        "bend2/bend.ts:1828-1855",
+        "Official book_load of tests/flatten/statement_lam_absorb.bend rejects before checking/runtime; - expected : '}'; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/flatten/unsupported_pattern.bend",
+      "sha256": "c5161e9471f59251aebfadbcd9929ad6a96dcc0029c0328b4e8f2010bc3c5007",
+      "classification": "malformed-syntax",
+      "reason": "case x => x: uses a lambda term as a case pattern. The official pattern grammar admits binders, constructor patterns and literal sugar, not Lam; parse_patt rejects this exact lambda with expected a pattern (a binder or a constructor). This is an unsupported pattern form, not a checker/runtime failure.",
+      "evidence": [
+        "tests/flatten/unsupported_pattern.bend:15-18",
+        "bend2/bend.ts:1712-1736,2299-2305",
+        "Official book_load of tests/flatten/unsupported_pattern.bend rejects before checking/runtime; - expected : a pattern (a binder or a constructor); - observed : x => x"
+      ]
+    },
+    {
+      "file": "tests/import/comp_splice_boundary.bend",
+      "sha256": "21dba2f2cf23454d8c6e3762eaf74601da80cd7a8b73fb4667f7eb9377a84811",
+      "classification": "valid-source-grammar-gap",
+      "reason": "law ct_each uses a leading for ~f: U32 -> U32 and recursively applies that template function while constructing CtC values. The lambda call across ct_total/ct_each is syntactically valid irrespective of specialization-boundary checks. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/import/comp_splice_boundary.bend:12-22,35-39",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/import/comp_splice_boundary.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/import/unsafe-law/fill.bend",
+      "sha256": "86314f6a6a7719595d10751a3d1d051fcad2918fe5fd0244ffb3a7b49db4ba89",
+      "classification": "valid-source-grammar-gap",
+      "reason": "def Laws.false_law?(): is the supported ? unsafe marker immediately after a qualified definition name. It fills the imported law through the Laws alias; ownership/unsafe-law safety checks do not invalidate this spelling. Official book_load resolves its imports and accepts the entire unchanged file. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/import/unsafe-law/fill.bend:3-6",
+        "bend2/bend.ts:952-1013,1593-1606,2431-2439",
+        "Official book_load of tests/import/unsafe-law/fill.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/import/unsafe-law/safe.bend",
+      "sha256": "7a5b99d94d16cbda7f61cadf5b13d6b998ba6a03adff832e158fb22af121cd0b",
+      "classification": "valid-source-grammar-gap",
+      "reason": "def spin?() -> Empty: is supported unsafe-definition marker syntax, and def Laws.one(): is a qualified imported-law fill. Possible unsafe dependency/proof issues are checker concerns. Official book_load resolves the imports and accepts both definitions in the unchanged file. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/import/unsafe-law/safe.bend:2-9",
+        "bend2/bend.ts:952-1013,2431-2464",
+        "Official book_load of tests/import/unsafe-law/safe.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/import/unsafe_law_own.bend",
+      "sha256": "4fd8d6fa5928ab132902e44c6ae65e11156d40860455400135df58a62b534a24",
+      "classification": "valid-source-grammar-gap",
+      "reason": "def Laws.false_law?(): uses the supported unsafe marker after a qualified imported-law name, followed by a call to that law. Ownership and recursion/safety analysis are not syntax errors. Official book_load resolves the imports and accepts the entire unchanged file. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/import/unsafe_law_own.bend:2-6",
+        "bend2/bend.ts:952-1013,1593-1606,2431-2439",
+        "Official book_load of tests/import/unsafe_law_own.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/io/cbody_bare_path.bend",
+      "sha256": "d1c13a0457008bfcd93e516549f90079042e460223f16529eb0f43acd87d582f",
+      "classification": "malformed-syntax",
+      "reason": "The foreign body import path_bare.c omits quotes around the path. parse_def requires import followed by a double-quoted .c/.js path; the actual parser expects a quote and observes p. Any IO/foreign-body constraints are separate from this syntax failure.",
+      "evidence": [
+        "tests/io/cbody_bare_path.bend:13-14",
+        "bend2/bend.ts:2464-2481",
+        "Official book_load of tests/io/cbody_bare_path.bend rejects before checking/runtime; - expected : '\"'; - observed : 'p'"
+      ]
+    },
+    {
+      "file": "tests/io/cbody_dup_effect.bend",
+      "sha256": "ec798ef8dc401b58ec20f3af0a3ce35147682bfed2adbb6e6529c6ff3c18bf84",
+      "classification": "malformed-syntax",
+      "reason": "The foreign body import ./lib/eff.c is unquoted. parse_def requires a double-quoted foreign-body path and the actual parser expects a quote at the initial dot. Duplicate-effect checking is not used to justify rejecting this malformed spelling.",
+      "evidence": [
+        "tests/io/cbody_dup_effect.bend:11-12",
+        "bend2/bend.ts:2464-2481",
+        "Official book_load of tests/io/cbody_dup_effect.bend rejects before checking/runtime; - expected : '\"'; - observed : '.'"
+      ]
+    },
+    {
+      "file": "tests/io/cbody_effect.bend",
+      "sha256": "22447996b93d357dacb6c888868ab2e86b6fb5cfce94b80cd34eda733595974a",
+      "classification": "malformed-syntax",
+      "reason": "The foreign body import ./lib/eff.c is unquoted. The actual parser expects a double quote and observes the dot, as parse_def requires quoted .c/.js paths. The later well-formed do IO<U32> block does not repair the malformed foreign body.",
+      "evidence": [
+        "tests/io/cbody_effect.bend:12-13,18-21",
+        "bend2/bend.ts:2464-2481",
+        "Official book_load of tests/io/cbody_effect.bend rejects before checking/runtime; - expected : '\"'; - observed : '.'"
+      ]
+    },
+    {
+      "file": "tests/io/cbody_needs_io.bend",
+      "sha256": "b178a5658d3f55c4f769a1312e6c7657fa8ccf1e2b98cfb668952f88ba9f02cf",
+      "classification": "malformed-syntax",
+      "reason": "The foreign body import ./lib/eff.c is unquoted. The official parser requires a quoted path and rejects its first dot with expected quote, independently of whether the declared foreign result must be IO.",
+      "evidence": [
+        "tests/io/cbody_needs_io.bend:11-12",
+        "bend2/bend.ts:2464-2481",
+        "Official book_load of tests/io/cbody_needs_io.bend rejects before checking/runtime; - expected : '\"'; - observed : '.'"
+      ]
+    },
+    {
+      "file": "tests/page/comp_arrow_position.bend",
+      "sha256": "0003871536053859f8ca509bf73c9b6c8172b184e4909ceefba3bdca62fe63ab",
+      "classification": "malformed-syntax",
+      "reason": "@~g: (U32 -> U32) -> U32 places ~ in a dependent function binder. parse_term_all allows only an optional quantity -/+ then a name; ~ is reserved for leading law/def template clauses. The actual parser expects a name and observes ~.",
+      "evidence": [
+        "tests/page/comp_arrow_position.bend:10-11",
+        "bend2/bend.ts:1691-1699,2160-2167",
+        "Official book_load of tests/page/comp_arrow_position.bend rejects before checking/runtime; - expected : a name; - observed : '~'"
+      ]
+    },
+    {
+      "file": "tests/page/comp_param_match.bend",
+      "sha256": "eaecec1093786e959ff5e516a24cf1f55d30294f2e8d3e3d1390b5fcd2694d2b",
+      "classification": "valid-source-grammar-gap",
+      "reason": "law t begins with for ~f: U32 -> U32; its def matches f against the braced declared constructor U32{w}. Whether that pattern is type-compatible with the function-valued template parameter is a checker question, not a syntax rejection. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/page/comp_param_match.bend:7-20",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/page/comp_param_match.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/parse/array_key_range.bend",
+      "sha256": "05c603990ec166b93b084fcde584db33b26a5709def64b7911491819f1aad978",
+      "classification": "malformed-syntax",
+      "reason": "The body contains [0:5, _:0; 1]. After the initial colon the official parser enters array-fill syntax [value: Type ^ depth] (or * count), then requires ^ or * rather than the comma after 5. This is a malformed literal, not a numeric range or key semantic error.",
+      "evidence": [
+        "tests/parse/array_key_range.bend:10",
+        "bend2/bend.ts:68,1911-1935",
+        "Executed official book_load against the pinned source: - expected : '^'; - observed : ','"
+      ]
+    },
+    {
+      "file": "tests/parse/array_length_power.bend",
+      "sha256": "5ede18332142bd0ec7e5b7ec1af4ee6c8500fe92867d1c07a13f44bf83a24be0",
+      "classification": "malformed-syntax",
+      "reason": "The literal [7; 16] uses a semicolon length tail unsupported by list syntax. The official parser reads list elements with parse_term_args and cannot parse ; as the next term. This is not the power-of-two count check for the distinct [value: Type * count] form.",
+      "evidence": [
+        "tests/parse/array_length_power.bend:9",
+        "bend2/bend.ts:1911-1940,2146-2157",
+        "Executed official book_load against the pinned source: - expected : a term; - observed : ';'"
+      ]
+    },
+    {
+      "file": "tests/parse/bare_caret_dead.bend",
+      "sha256": "6a72ade028c73261267ef693cbab27247319dc580d16390a350f4c07c266acc6",
+      "classification": "malformed-syntax",
+      "reason": "The expression 1 ^ 2 uses bare ^ as an infix operator. The official INFIX table has dotted .^. for xor but no bare caret, so parsing returns 1 and the top-level parser rejects the remaining ^.",
+      "evidence": [
+        "tests/parse/bare_caret_dead.bend:9",
+        "bend2/bend.ts:1976-2000,2079-2085,2585",
+        "Executed official book_load against the pinned source: - expected : 'def', 'type' or 'law'; - observed : '^'"
+      ]
+    },
+    {
+      "file": "tests/parse/bind_outside_do.bend",
+      "sha256": "95b0068978780d1dd28360534a844749a0696c7b1350371ac1996c0ae267903e",
+      "classification": "malformed-syntax",
+      "reason": "The body x <- half(10) uses a bare bind outside a do block. Ordinary term parsing does not consume the <- operator at level zero (its precedence is -1); the remainder is rejected at top level. do statements and array-index writes are separate supported forms.",
+      "evidence": [
+        "tests/parse/bind_outside_do.bend:15",
+        "bend2/bend.ts:1976-1978,2086-2091,2248-2280,2585",
+        "Executed official book_load against the pinned source: - expected : 'def', 'type' or 'law'; - observed : '<'"
+      ]
+    },
+    {
+      "file": "tests/parse/chain_old_spellings_000.bend",
+      "sha256": "be36a9ed049fa199af1250288efd083c21332f352125a9a4c6c717525637ab34",
+      "classification": "malformed-syntax",
+      "reason": "The body 1n +n 2n does not use a supported Nat operator spelling. A + glued to a name is not consumed as infix addition; +n is read as another binding-head term and parse_body requires = before the remaining 2n.",
+      "evidence": [
+        "tests/parse/chain_old_spellings_000.bend:6",
+        "bend2/bend.ts:1813-1821,2086-2091,2311-2334",
+        "Executed official book_load against the pinned source: - expected : '='; - observed : '2'"
+      ]
+    },
+    {
+      "file": "tests/parse/chain_old_spellings_001.bend",
+      "sha256": "89889cc8182f02f3f374edcfbea6adea404c5a7378094b3bf5c82871368dd2dc",
+      "classification": "malformed-syntax",
+      "reason": "The expression 1.0 +. 2.0 has an unsupported +. operator. The official infix parser consumes +, then encounters a dot where an operand term must begin; the term-base parser rejects that dot.",
+      "evidence": [
+        "tests/parse/chain_old_spellings_001.bend:6",
+        "bend2/bend.ts:1751-1754,1970-1999,2079-2095",
+        "Executed official book_load against the pinned source: - expected : a term; - observed : '.'"
+      ]
+    },
+    {
+      "file": "tests/parse/comp_arrow_position.bend",
+      "sha256": "5ca749a82b3187527e5afbc54a6458adba63b4d97ffe6d3828f9a4e0535d09c5",
+      "classification": "malformed-syntax",
+      "reason": "The annotation in {y => y : U32 -~> U32} contains the removed -~> arrow. Official operators include -> but not -~>; parsing consumes subtraction and rejects ~ as the next operand term. The issue is the arrow spelling, not typed-let availability (the release does support typed lets).",
+      "evidence": [
+        "tests/parse/comp_arrow_position.bend:12",
+        "bend2/bend.ts:1883-1897,1976-2000,2079-2095",
+        "Executed official book_load against the pinned source: - expected : a term; - observed : '~'"
+      ]
+    },
+    {
+      "file": "tests/parse/computed_mark_nonname.bend",
+      "sha256": "65d21a996e07977618e659f9d547a2b479bce0d2a01a3b021dffed00db1d6492",
+      "classification": "malformed-syntax",
+      "reason": "The completed call f(1)! ends with a standalone postfix bang. Official call syntax recognizes ! only as !( followed by call arguments; the bare trailing ! remains unconsumed and is rejected by the top-level parser.",
+      "evidence": [
+        "tests/parse/computed_mark_nonname.bend:18",
+        "bend2/bend.ts:2022-2033,2585",
+        "Executed official book_load against the pinned source: - expected : 'def', 'type' or 'law'; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/parse/ctor_indexed_target.bend",
+      "sha256": "78703f22e6906ece6ecef0a374fc9dc6b7e92c5e41c0c163bc9dd3198cb1cc57",
+      "classification": "malformed-syntax",
+      "reason": "The constructor row Cc{} : Dd(n, @x: Type -> x) has a result annotation after its field group. Official datatype syntax ends each constructor row after Name{fields} and synthesizes the result using the datatype parameters; the following colon is rejected before result-type checking.",
+      "evidence": [
+        "tests/parse/ctor_indexed_target.bend:4-5",
+        "bend2/bend.ts:47-48,2512-2538,2585",
+        "Executed official book_load against the pinned source: - expected : 'def', 'type' or 'law'; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/parse/ctor_result_annotation.bend",
+      "sha256": "70a47b70ec3bddc3693655ad8e6310f207c4fa81735df6c2125a9f980ebae5ec",
+      "classification": "malformed-syntax",
+      "reason": "The constructor row Mk{} : U32 contains a result annotation unsupported by the constructor declaration grammar. The official parser closes the row at } and rejects the remaining colon; no judgment about whether U32 is a suitable semantic result is needed.",
+      "evidence": [
+        "tests/parse/ctor_result_annotation.bend:4-5",
+        "bend2/bend.ts:47-48,2524-2538,2585",
+        "Executed official book_load against the pinned source: - expected : 'def', 'type' or 'law'; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/parse/ctor_result_arrow.bend",
+      "sha256": "0784871f525a838a476c26b0ca9abcab2a797da814aac6c6e388ae8cf7840cc9",
+      "classification": "malformed-syntax",
+      "reason": "The row Cc{} : U32 -> Dd adds a result annotation after the constructor fields. The official parser only accepts Name{fields} rows and rejects the colon before it can inspect the arrow or result type.",
+      "evidence": [
+        "tests/parse/ctor_result_arrow.bend:4-5",
+        "bend2/bend.ts:47-48,2524-2538,2585",
+        "Executed official book_load against the pinned source: - expected : 'def', 'type' or 'law'; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/parse/datatype_no_is.bend",
+      "sha256": "52d4a013816d2474e699599d447969cbe4420c33e4c5242760ee7608db382db5",
+      "classification": "malformed-syntax",
+      "reason": "The header type Kk: omits the required is followed by a kind term. Official parse_book requires the word is immediately after the datatype name and optional parameter group; the observed colon is a syntax failure.",
+      "evidence": [
+        "tests/parse/datatype_no_is.bend:6-7",
+        "bend2/bend.ts:48,2512-2520",
+        "Executed official book_load against the pinned source: - expected : 'is'; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/parse/dead_lambda_syntax.bend",
+      "sha256": "94c45fcd1f1f42edba5175f22efff3c4631fd92d0f366be76f002ddef7eb38e9",
+      "classification": "malformed-syntax",
+      "reason": "The body (\\x.x)(3) uses the removed backslash-name lambda spelling. In the official parser backslash must immediately introduce a braced match term, so x after the backslash fails the required { token. Ordinary lambdas use name => body.",
+      "evidence": [
+        "tests/parse/dead_lambda_syntax.bend:9",
+        "bend2/bend.ts:30,34-35,1828-1831",
+        "Executed official book_load against the pinned source: - expected : '{'; - observed : 'x'"
+      ]
+    },
+    {
+      "file": "tests/parse/dead_motive_syntax.bend",
+      "sha256": "ddd6f519b732fd0c4cbd26b7a2c69f93ea490bca014c26ee6ab01c0f11dfdef8",
+      "classification": "malformed-syntax",
+      "reason": "The body %[h => {y == h : U32}] e {=} uses an obsolete rewrite form. Contrary to the fixture comment, the bracketed list does parse as the expression after %; the actual syntax failure is that the required colon after that expression is replaced by e. This conclusion follows the parser, not the stale comment.",
+      "evidence": [
+        "tests/parse/dead_motive_syntax.bend:12-13",
+        "bend2/bend.ts:1857-1870,1911-1940",
+        "Executed official book_load against the pinned source: - expected : ':'; - observed : 'e'"
+      ]
+    },
+    {
+      "file": "tests/parse/do_missing_param.bend",
+      "sha256": "1fb13600c5cfc4f9e340f79e03d536d86ac6636eb25943eb53fe4e61399f322e",
+      "classification": "malformed-syntax",
+      "reason": "The head do Result: omits the mandatory angle-bracket argument group. Official parse_term_base requires < after the monad name, even for an empty argument group; the colon occurs too early.",
+      "evidence": [
+        "tests/parse/do_missing_param.bend:10-11",
+        "bend2/bend.ts:1770-1777",
+        "Executed official book_load against the pinned source: - expected : '<'; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/parse/duplicate_buffer_key.bend",
+      "sha256": "1fb39ee8a5cfb2831ad3c97679166271b89665cbdfd1d9e5dda489bd85b6f077",
+      "classification": "malformed-syntax",
+      "reason": "The literal [0:1,0:2,_:0;2] is malformed array-fill syntax. The official parser enters its value: Type array branch and requires ^ or * after 1, finding a comma instead. Rejection does not establish a duplicate-key semantic rule; no such rule is needed to explain this syntax failure.",
+      "evidence": [
+        "tests/parse/duplicate_buffer_key.bend:10",
+        "bend2/bend.ts:68,1911-1935",
+        "Executed official book_load against the pinned source: - expected : '^'; - observed : ','"
+      ]
+    },
+    {
+      "file": "tests/parse/expected_float_literal.bend",
+      "sha256": "aebd3017db3747fc7e3f9672e8de306a075768caeeb3450e74d4727527b42b5a",
+      "classification": "malformed-syntax",
+      "reason": "The token 1.x is not a float literal: the numeric regular expression requires digits after the dot. It first reads integer 1 and rejects the following dot as trailing name material in parse_term_num.",
+      "evidence": [
+        "tests/parse/expected_float_literal.bend:9",
+        "bend2/bend.ts:501-503,2195-2213",
+        "Executed official book_load against the pinned source: - expected : a numeric literal (NUMBER is U32, NUMBER n is Nat); - observed : '.'"
+      ]
+    },
+    {
+      "file": "tests/parse/float_dotted_family_dead_000.bend",
+      "sha256": "386319c42276f352636f1aa38cd16df9914ce9d6875b6ea1c6c89dee84b76b7f",
+      "classification": "malformed-syntax",
+      "reason": "The body 1.0 .+. 2.0 contains an unsupported dotted addition operator. The official INFIX table contains some dotted bitwise operators, but no .+.; parsing finishes the first literal and top-level parsing rejects the remaining dot.",
+      "evidence": [
+        "tests/parse/float_dotted_family_dead_000.bend:10",
+        "bend2/bend.ts:1976-2000,2079-2085,2585",
+        "Executed official book_load against the pinned source: - expected : 'def', 'type' or 'law'; - observed : '.'"
+      ]
+    },
+    {
+      "file": "tests/parse/gadt_result_annotation_000.bend",
+      "sha256": "a64f82ac12a01c94f84b8f71e084e230f4737fcbb60ff1e6a36af3e43e805e99",
+      "classification": "malformed-syntax",
+      "reason": "The constructor row I0{} : Ix(0n) adds an indexed result annotation that is not part of official constructor syntax. The parser synthesizes the constructor result from Ix and its declared parameters and rejects the trailing colon. No semantic conclusion about indexed elimination is used.",
+      "evidence": [
+        "tests/parse/gadt_result_annotation_000.bend:4-5",
+        "bend2/bend.ts:47-48,2524-2538,2585",
+        "Executed official book_load against the pinned source: - expected : 'def', 'type' or 'law'; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/parse/gadt_result_annotation_001.bend",
+      "sha256": "3dfdfaefb5aa9469e3cba39322c031b32b65c7584cde9084ab8804e86a27a501",
+      "classification": "malformed-syntax",
+      "reason": "The whitespace-compacted row I0x{}:Ix2(0n) still adds an unsupported result annotation after the constructor fields. Official constructor parsing ends at } and rejects the colon regardless of spacing.",
+      "evidence": [
+        "tests/parse/gadt_result_annotation_001.bend:5-6",
+        "bend2/bend.ts:47-48,2524-2538,2585",
+        "Executed official book_load against the pinned source: - expected : 'def', 'type' or 'law'; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/parse/gpu_mark_order.bend",
+      "sha256": "12cff3d7d73a37496e0e00f61728aac5a5e970cd2038490bf853403fa6d87bc8",
+      "classification": "malformed-syntax",
+      "reason": "The declaration def pick<A>(x, y): places an angle parameter group where official def syntax requires (. It fails at the declaration before the later pick<U32>!(1, 2) call is examined; no GPU mark-order semantic assertion is needed.",
+      "evidence": [
+        "tests/parse/gpu_mark_order.bend:12,18-19",
+        "bend2/bend.ts:2431-2445",
+        "Executed official book_load against the pinned source: - expected : '('; - observed : '<'"
+      ]
+    },
+    {
+      "file": "tests/parse/hex_no_digits.bend",
+      "sha256": "2d403d88c2d69605bcad2ec1bcdb4529af940738a617df6af1c089e013bace42",
+      "classification": "malformed-syntax",
+      "reason": "def main(): 0x contains a decimal numeric literal followed by a name character; this release has no hexadecimal literal syntax. The upstream fixture expects a located numeric-literal syntax error on x.",
+      "evidence": [
+        "tests/parse/hex_no_digits.bend:10,12-21",
+        "bend2/bend.ts:2197-2213 (parse_term_num rejects trailing name characters)"
+      ]
+    },
+    {
+      "file": "tests/parse/if_no_else.bend",
+      "sha256": "be2f6c758a97991a63a902b3d4da3661fc31189b17fa714b18cc1dc2f6b87d18",
+      "classification": "malformed-syntax",
+      "reason": "The removed branch spelling if b: 1 is not an if expression in this release. if is an ordinary name, and the multi-term body falls into binding parsing, which requires = rather than the observed colon. The upstream expected diagnostic identifies that syntax failure.",
+      "evidence": [
+        "tests/parse/if_no_else.bend:1-3,10-11,19-28",
+        "bend2/bend.ts:2286-2334 (parse_body accepts match or term/binding bodies; multi-term bodies require =)"
+      ]
+    },
+    {
+      "file": "tests/parse/invalid_assign_target.bend",
+      "sha256": "0124b1fa81edf54738b036e6263ecbccbcefbd3269365c8bbfb25b1747606ff7",
+      "classification": "malformed-syntax",
+      "reason": "The local statement f(1) = 3 uses an application as its binding pattern. Official parse_body reinterprets the left side as a pattern and parse_patt only admits binders, constructor patterns, and literal expansion; its default rejects the application. This is a binding-pattern structural syntax restriction, not a type-check or runtime failure.",
+      "evidence": [
+        "tests/parse/invalid_assign_target.bend:17-18",
+        "bend2/bend.ts:1712-1736,2333-2347",
+        "Executed official book_load against the pinned source: - expected : a pattern (a binder or a constructor); - observed : f(1)"
+      ]
+    },
+    {
+      "file": "tests/parse/invalid_string_escape.bend",
+      "sha256": "5b44a32d097372df1cb508610da9891a5f8bc17c04c54976549110705366db44",
+      "classification": "malformed-syntax",
+      "reason": "The string a\\qb uses unsupported escape \\q. Official parse_char rejects an escape absent from ESCAPES and string parsing invokes parse_char; the fixture explicitly expects the escape syntax diagnostic.",
+      "evidence": [
+        "tests/parse/invalid_string_escape.bend:9,16-25",
+        "bend2/bend.ts:1617-1628,1951-1958"
+      ]
+    },
+    {
+      "file": "tests/parse/legacy_bang_statement.bend",
+      "sha256": "a656bf198580915720faff5a18134ecaee117cb610c74b8d5a1737f0d5517a74",
+      "classification": "malformed-syntax",
+      "reason": "The body ! x = 1; x starts a statement with an unsupported bang token. Official term-base parsing has no leading ! case and fails to parse a term there; the supported bang belongs to named GPU calls, not statement heads.",
+      "evidence": [
+        "tests/parse/legacy_bang_statement.bend:10",
+        "bend2/bend.ts:1751-1973,2022-2033",
+        "Executed official book_load against the pinned source: - expected : a term; - observed : '!'"
+      ]
+    },
+    {
+      "file": "tests/parse/legacy_brace_datatype.bend",
+      "sha256": "ccae3d25d61fde849c1d1d4cff37098ab560684b9eb8a694075b15226aca5adf",
+      "classification": "malformed-syntax",
+      "reason": "The top-level form Nn6 { Zz6{} Ss6{p: Nn6} } has no type keyword. Official book parsing accepts def, type, or law declarations (and @unsafe def), so the bare name fails as a top-level declaration head.",
+      "evidence": [
+        "tests/parse/legacy_brace_datatype.bend:4",
+        "bend2/bend.ts:2489-2518,2542-2585",
+        "Executed official book_load against the pinned source: - expected : 'def', 'type' or 'law'; - observed : 'N'"
+      ]
+    },
+    {
+      "file": "tests/parse/legacy_data_annotation.bend",
+      "sha256": "ee4793fc1391b4210c6536b2f6a16d75883f62e54baed200196457d2ec127e52",
+      "classification": "malformed-syntax",
+      "reason": "The top-level form Nn7 : Data { Zz7{} } is not an official datatype declaration. Official book parsing requires a type-headed declaration rather than a bare name with an annotation, and rejects Nn7 at the top-level head.",
+      "evidence": [
+        "tests/parse/legacy_data_annotation.bend:4",
+        "bend2/bend.ts:48,2489-2518,2542-2585",
+        "Executed official book_load against the pinned source: - expected : 'def', 'type' or 'law'; - observed : 'N'"
+      ]
+    },
+    {
+      "file": "tests/parse/let_arity_mismatch.bend",
+      "sha256": "2ce90bb8633d80446c36254de1c21a3b683f5e7fd02adb0a74a71beeb1e48bb5",
+      "classification": "malformed-syntax",
+      "reason": "The statement a, b = f(1) uses a comma-separated binding head. Official parallel lets collect adjacent terms without commas; the comma causes the first a to be returned as a reply, then fails top-level declaration parsing. This is a separator syntax error, not a value-count or arity semantic error; parallel lets do exist in this release.",
+      "evidence": [
+        "tests/parse/let_arity_mismatch.bend:18-19",
+        "bend2/bend.ts:44,2311-2334,2585",
+        "Executed official book_load against the pinned source: - expected : 'def', 'type' or 'law'; - observed : ','"
+      ]
+    },
+    {
+      "file": "tests/parse/prefix_operator_dead.bend",
+      "sha256": "6cdef2c036e10fbf9a2c6cf50071584ff010540b137869d5d20db8bb31e7dea8",
+      "classification": "malformed-syntax",
+      "reason": "The body -5 uses an unsupported unary numeric minus. Official body parsing interprets a leading - as an erased binding-head marker and immediately requires a name; the following digit 5 cannot start one.",
+      "evidence": [
+        "tests/parse/prefix_operator_dead.bend:10",
+        "bend2/bend.ts:496-499,1593-1597,2311-2314",
+        "Executed official book_load against the pinned source: - expected : a name; - observed : '5'"
+      ]
+    },
+    {
+      "file": "tests/parse/reserved_dollar_name.bend",
+      "sha256": "19ee3136b3270ae020d3231ea50c5b4091080a13d397753df46443754a943d16",
+      "classification": "malformed-syntax",
+      "reason": "The declaration def foo$bar(): Unit{} contains $ in the name. Official name scanning admits letters, underscores, digits, and dots but not $, reads foo, and then fails the mandatory ( token at $. The later foo$bar expression is not reached.",
+      "evidence": [
+        "tests/parse/reserved_dollar_name.bend:7,12",
+        "bend2/bend.ts:496-503,1593-1606,2431-2439",
+        "Executed official book_load against the pinned source: - expected : '('; - observed : '$'"
+      ]
+    },
+    {
+      "file": "tests/parse/reserved_lambda_binder.bend",
+      "sha256": "1415bb0b40e29e35476c09e4f1f8a1f5c8ba6ee61f8e4e2dba324f603327cbab",
+      "classification": "malformed-syntax",
+      "reason": "The body Type => Type uses the reserved universe term as a lambda binder. Official term parsing turns Type into Typ rather than Var, and the => branch requires a Var through parse_bind. The binder is structurally invalid before any lambda body type checking.",
+      "evidence": [
+        "tests/parse/reserved_lambda_binder.bend:6",
+        "bend2/bend.ts:1705-1709,1753-1756,2071-2076",
+        "Executed official book_load against the pinned source: - expected : a lambda binder (one name: k => body); - observed : ' '"
+      ]
+    },
+    {
+      "file": "tests/parse/reserved_let_binder_001.bend",
+      "sha256": "47901c7a72c0b787b7547ebcb56b12dc849b9d9a2a7b5ad0904fb1efbea522bd",
+      "classification": "malformed-syntax",
+      "reason": "The statement do = 1 attempts to use reserved do as a binder. Official term parsing dispatches do to a do-block head and requires a monad name next; the = token fails that name requirement, before any binding or type semantics.",
+      "evidence": [
+        "tests/parse/reserved_let_binder_001.bend:10-11",
+        "bend2/bend.ts:1506-1510,1593-1614,1770-1777",
+        "Executed official book_load against the pinned source: - expected : a name; - observed : '='"
+      ]
+    },
+    {
+      "file": "tests/parse/reserved_pi_binder.bend",
+      "sha256": "462d0ce8ab929bcc9101066e6d51611bc30e28cd85ec35c39bca80ea4e81e6d3",
+      "classification": "malformed-syntax",
+      "reason": "The expression @Type -> x => Type lacks a permitted binder name and colon. Official forall parsing always reads a non-keyword name after @, and parse_name rejects the reserved word Type immediately.",
+      "evidence": [
+        "tests/parse/reserved_pi_binder.bend:9",
+        "bend2/bend.ts:1506-1510,1609-1614,2160-2167",
+        "Executed official book_load against the pinned source: - expected : a name (got the keyword 'Type'); - observed : 'Type'"
+      ]
+    },
+    {
+      "file": "tests/parse/reserved_type_name.bend",
+      "sha256": "6a9ae28e6a03279ef5e44f4804e5dc6147b6167062a04dab71240b07d930b84c",
+      "classification": "malformed-syntax",
+      "reason": "The declaration type match: uses reserved match as the datatype name. Official parse_name rejects the keyword while reading that name, before the separately missing is kind could be considered.",
+      "evidence": [
+        "tests/parse/reserved_type_name.bend:3-4",
+        "bend2/bend.ts:1506-1510,1609-1614,2512-2518",
+        "Executed official book_load against the pinned source: - expected : a name (got the keyword 'match'); - observed : 'match'"
+      ]
+    },
+    {
+      "file": "tests/parse/reserved_type_param.bend",
+      "sha256": "8681b9fc26c912457a706f3991afcdf9b3d0cd795905dfd550dee5ed2e341006",
+      "classification": "malformed-syntax",
+      "reason": "The header type Bad<match: Type>: uses reserved match as a parameter binder. Official parse_tele calls parse_name for each parameter and rejects that keyword before reaching the separately missing is kind.",
+      "evidence": [
+        "tests/parse/reserved_type_param.bend:4-5",
+        "bend2/bend.ts:1506-1510,1609-1614,2386-2409,2512-2518",
+        "Executed official book_load against the pinned source: - expected : a name (got the keyword 'match'); - observed : 'match'"
+      ]
+    },
+    {
+      "file": "tests/parse/typed_let_pattern.bend",
+      "sha256": "5ed51d22004bed3906731495ace55d112daf12524cf2a65659aa6fab759fb1cd",
+      "classification": "malformed-syntax",
+      "reason": "The statement Kk{a, c} : Aa = b uses a constructor pattern as a typed-let binding head. Official parse_body explicitly restricts typed and parallel lets to Var heads and rejects this constructor head. Untyped constructor destructuring is separate supported syntax; this is the parser's binding-form restriction, not failure of annotation type checking.",
+      "evidence": [
+        "tests/parse/typed_let_pattern.bend:9-11",
+        "bend2/bend.ts:2319-2347",
+        "Executed official book_load against the pinned source: - message  : a name (a parallel or typed let binds names; destructure in its body)"
+      ]
+    },
+    {
+      "file": "tests/parse/typed_let_sugar.bend",
+      "sha256": "0ce930bafaa384b412adc9c2f8e78df32ca1511cb7b1c3060f7f0535147087fc",
+      "classification": "valid-source-grammar-gap",
+      "reason": "The official parser accepts the erased typed let -n : Nat = 5n, typed let z : U32 = 30, and grouped typed-let sequence (x : U32 = 1; y : U32 = 2; z + x + y : U32). Official book_valid also succeeds, and full interpreter normalization returns 33. The observed Tree-sitter rejection is therefore a valid-source grammar gap and must remain release-blocking.",
+      "evidence": [
+        "tests/parse/typed_let_sugar.bend:5-8",
+        "bend2/bend.ts:1502,2179-2192,2311-2350",
+        "Executed official book_load and book_valid against the pinned source: accepted; term_snf(Ref(\"main\")) rendered as 33."
+      ]
+    },
+    {
+      "file": "tests/parse/unclosed_char_code.bend",
+      "sha256": "8318649037b79dc0799fb1bc45d71961fe99387feeb814d9fcb9f09340d13722",
+      "classification": "malformed-syntax",
+      "reason": "A bare backtick followed by a is the removed Bend 3 char-code spelling, not a term in this release. The upstream fixture documents the removed form and expects a term syntax error at the backtick; no semantic/runtime-error inference is used.",
+      "evidence": [
+        "tests/parse/unclosed_char_code.bend:1-3,9-10,12-21",
+        "bend2/bend.ts:1942-1949 (character literals use single quotes)"
+      ]
+    },
+    {
+      "file": "tests/parse/unicode_forall_dead.bend",
+      "sha256": "18c7aa0576ba8d72cd4e81610ecf014687a23e685d4983c4031f3b59a98b0abd",
+      "classification": "malformed-syntax",
+      "reason": "The body \u2200x:U32.U32 uses the removed unicode forall spelling. Official name heads are ASCII and term-base syntax accepts @ for forall, not \u2200; it fails to parse a term at that character.",
+      "evidence": [
+        "tests/parse/unicode_forall_dead.bend:8",
+        "bend2/bend.ts:496-499,1751-1803,1970-1973",
+        "Executed official book_load against the pinned source: - expected : a term; - observed : '\u2200'"
+      ]
+    },
+    {
+      "file": "tests/parse/unicode_lambda_dead.bend",
+      "sha256": "757344f002bcf8e7f9cc8fb2bad9ff6a3146fd231610d6984f31f00ce5a62605",
+      "classification": "malformed-syntax",
+      "reason": "The body \u03bbx.x uses the removed unicode lambda spelling. Official name heads are ASCII and lambda syntax is name => body; no term-base case accepts \u03bb, so it fails to parse a term at that character.",
+      "evidence": [
+        "tests/parse/unicode_lambda_dead.bend:8",
+        "bend2/bend.ts:30,496-499,1751-1754,1970-1973,2071-2076",
+        "Executed official book_load against the pinned source: - expected : a term; - observed : '\u03bb'"
+      ]
+    },
+    {
+      "file": "tests/proof/fold_assoc.bend",
+      "sha256": "394a826cdadc0c6178c0a8addcecbd257f77038220b0adb7d36d3944158f93e4",
+      "classification": "valid-source-grammar-gap",
+      "reason": "fold and fold_assoc have leading template binders/clauses ~op and ~assoc; dependent equality types and ~-prefixed recursive/caller arguments use official syntax. Proof checking cannot justify tree-sitter rejection of their valid leading template clauses. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/proof/fold_assoc.bend:8-29,45-53",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/proof/fold_assoc.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/proof/model_false.bend",
+      "sha256": "3f098485e64f59835ff3aac4013001c56ba92c2f8e2fc9b3b74f1793c3136825",
+      "classification": "valid-source-grammar-gap",
+      "reason": "law L begins with contiguous ~f and ~h clauses containing dependent function/equality types. The logically overstrong premise asserted by ~h does not make its dependent equality-type syntax malformed. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/proof/model_false.bend:2-8",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/proof/model_false.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/proof/model_lambdas.bend",
+      "sha256": "6696b75477c3a8a52e3a00b0d32737a6a44749e5424ba7589b089e895e5f4a92",
+      "classification": "valid-source-grammar-gap",
+      "reason": "law L begins with contiguous ~f and ~h clauses whose types are dependent functions ending in equality propositions; def L binds their plain names. The extra quantified Nat parameter of h is valid dependent syntax. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/proof/model_lambdas.bend:2-8",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/proof/model_lambdas.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/proof/model_order.bend",
+      "sha256": "5b416dbf2a6f070815853ec799a554d53e9f698a9683aa32597bddd5be5b547f",
+      "classification": "valid-source-grammar-gap",
+      "reason": "shape_t and choice_t each use a contiguous leading ~mk/~ok prefix, with dependent equality witnesses and plain-name law-filling defs. The later Vec/Choice type definitions and deep dependent type do not invalidate those clauses. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/proof/model_order.bend:11-17,20-45",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/proof/model_order.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/proof/reassoc4.bend",
+      "sha256": "bc08cb06c23d7cccdcd314b1ced7e457b7c9ccf9056f40e35703d344874c96df",
+      "classification": "valid-source-grammar-gap",
+      "reason": "reassoc4 begins with ~op and ~assoc clauses followed by quantified ordinary a/b/c/d clauses. Its rewrites and ~-prefixed calls use supported syntax; any associativity proof obligation is not a syntax oracle. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/proof/reassoc4.bend:9-21,37-42",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/proof/reassoc4.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/proof/template_law.bend",
+      "sha256": "61605600b98cda875297e4733344df8872528be76174c7cb434fe8dc93962189",
+      "classification": "valid-source-grammar-gap",
+      "reason": "comm3 begins with ~op and ~comm clauses followed by +a/+b/+c quantity-marked ordinary clauses. Its dependent equality, rewrite bodies and ~-prefixed calls are supported syntax independently of proof checking. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/proof/template_law.bend:7-18,26-31",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/proof/template_law.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/reg/framed_cell_capture.bend",
+      "sha256": "2b373a1556370132f9db971b88ffa9595a3a00fea770219c486c89ad67ac88c6",
+      "classification": "malformed-syntax",
+      "reason": "match a : Bool = b, c : Bool = a: is the removed framed-match spelling, not a current match heading. Direct official parse_body ends the scrutinee list at the first colon, produces a zero-row match and leaves Bool = b, c : Bool = a: unconsumed; current parse_body then admits only case rows. The trailing return Bool is also outside any do block. The full load first throws during flattening of that truncated match; that semantic diagnostic alone is not the classification evidence.",
+      "evidence": [
+        "tests/reg/framed_cell_capture.bend:1-4,17-21",
+        "bend2/bend.ts:2286-2309,2371-2380,1785-1787",
+        "Official book_load of tests/reg/framed_cell_capture.bend rejects before checking/runtime; direct parse_body exercised: zero case rows and unconsumed framed heading suffix"
+      ]
+    },
+    {
+      "file": "tests/run/array_bounds_000.bend",
+      "sha256": "8e0cb4bbd8425f8398353e3c59217677da005e8a17c07dcb7007f62dc6e733b7",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'm : [:U32] = ![0:10, 1:20, 3:7, _:0; 4]'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/run/array_bounds_000.bend:11",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/run/array_bounds_000.bend: - expected : a term; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/run/array_bounds_001.bend",
+      "sha256": "d37d18db0996c2807625ca239474defcf46a5ad90d82c67866a7297f7e7946ec",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'm : [:U32] = ![1:5, _:0; 2]'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/run/array_bounds_001.bend:10",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/run/array_bounds_001.bend: - expected : a term; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/run/array_slab.bend",
+      "sha256": "ebae7b0daa725ee7eaedd5f3aaf14b28ab7c88b1d9cc8135de44e492614c403c",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'm : [:U32] = ![70000:1, _:0; 131072]'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/run/array_slab.bend:10",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/run/array_slab.bend: - expected : a term; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/run/array_struct_swap.bend",
+      "sha256": "2c9b6d35f1513aec0e58d9f0d98aa3f65c6919f7e639424f27203d6a4e1a9d11",
+      "classification": "malformed-syntax",
+      "reason": "The source uses the removed sparse-buffer spelling in 'm : [:Box9] = ![0:Mk9{1}, _:Mk9{7}; 1]'. The pinned official parser has no ![...] term or [:T] type: bracket syntax parses a first term, then list items or value:T^depth/value:T*count. Its actual book_load run rejects this file with 'a term', before any checker/runtime behavior. This is a syntax rejection, not an exemption inferred from the fixture's expected output.",
+      "evidence": [
+        "tests/run/array_struct_swap.bend:15",
+        "bend2/bend.ts:1751-1800,1911-1940,1970-1972 (term alternatives and current bracket syntax)",
+        "Official book_load of tests/run/array_struct_swap.bend: - expected : a term; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/run/binop_probe_split.bend",
+      "sha256": "14a5674b6fe5981206ca89ac144b551601c453eae9e5e13faf66f93ee7412c94",
+      "classification": "malformed-syntax",
+      "reason": "The expression (\\{0: 7; k => ...}(n : U32) + y : U32) uses a numeric-labelled lambda-match arm. Official lambda-match colon labels must be constructor names; the actual parser expects } after 0 and observes :, before evaluation/binop probing.",
+      "evidence": [
+        "tests/run/binop_probe_split.bend:11-12",
+        "bend2/bend.ts:1828-1855",
+        "Official book_load of tests/run/binop_probe_split.bend rejects before checking/runtime; - expected : '}'; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/run/ctr_dotted_field.bend",
+      "sha256": "cb30bd49760d4bdf33b66f34ee23449aa503e38823f6beb7e31e04157295ccc3",
+      "classification": "valid-source-grammar-gap",
+      "reason": "Outer{a: Inner, a.b: U32} has a legal dotted field name a.b. parse_name accepts dot-joined identifier words, and parse_tele reads field names with it; a and a.b are distinct names. Official book_load accepts the entire unchanged declaration, proof and main, while tree-sitter rejects a. in the field. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/run/ctr_dotted_field.bend:8-14,16-23",
+        "bend2/bend.ts:1593-1614,2386-2415,2529-2537",
+        "Official book_load of tests/run/ctr_dotted_field.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/run/unsafe_mark.bend",
+      "sha256": "ae44dfbf004312de001128f5c8587aba858b611f5e6515a91edf9c619c84930e",
+      "classification": "valid-source-grammar-gap",
+      "reason": "wnf? and wnf_app? use the officially supported post-name ? unsafe-definition marker. Their recursive lambda-containing datatype and matching definitions are parsed successfully by book_load; possible runtime recursion/safety checks do not justify rejecting ?. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/run/unsafe_mark.bend:5-22,33-34",
+        "bend2/bend.ts:2431-2464",
+        "Official book_load of tests/run/unsafe_mark.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/spec/comp_any_term.bend",
+      "sha256": "72b4a03bcfbd43eaf098acd7aaa6716ce2cbb0f38e4bbe7ef4f81d5ebbaacfde",
+      "classification": "valid-source-grammar-gap",
+      "reason": "law use begins with for ~f: U32 -> U32; caller binds an annotated lambda term to g and passes g as the template argument. Whether a specialization can accept that computed term is separate from the valid clause/lambda/annotation syntax. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/spec/comp_any_term.bend:9-15,24-36",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/spec/comp_any_term.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/spec/comp_capture_erase.bend",
+      "sha256": "ae84ed786c98f85b3f42ed09e19e6f85aeeb7fd528bfa7247a3daadd81f43d1c",
+      "classification": "valid-source-grammar-gap",
+      "reason": "law cp has a leading template clause for ~f: Unit -> (F32 & D), and the caller supplies a tuple/constructor-producing lambda. The erased -f1 constructor field and erased mk parameter are also legal syntax; capture-erasure checks are not syntax evidence. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/spec/comp_capture_erase.bend:9-18,20-25,36-40",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/spec/comp_capture_erase.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/spec/comp_capture_linear.bend",
+      "sha256": "ee2adecd86b24feca033884e028f752d5933ea4c5572d946df2dd79176577bea",
+      "classification": "valid-source-grammar-gap",
+      "reason": "law map has the leading for ~f: U32 -> U32; bad supplies x => g(x), capturing its ordinary g parameter. Whether the capture is permissible in a specialized template is a semantic quantity/capture question. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/spec/comp_capture_linear.bend:14-24,26-38",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/spec/comp_capture_linear.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/spec/comp_capture_share.bend",
+      "sha256": "91ee08be48d5c36e5819a9e9fb9a101b464df4ef31d7ba03667c15bceb475e2d",
+      "classification": "valid-source-grammar-gap",
+      "reason": "law apply starts with for ~f: U32 -> U32; once passes a lambda capturing k in an annotated arithmetic expression. Template capture/share checking is independent of this valid clause, lambda and call syntax. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/spec/comp_capture_share.bend:13-27,29-33",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/spec/comp_capture_share.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/spec/comp_curried_lambda.bend",
+      "sha256": "a3933a91a9dd7350cd7f17d2c83c268bc617b3e87dc2209eb0c0635aff33844c",
+      "classification": "valid-source-grammar-gap",
+      "reason": "law app2 has a leading ~f clause with a curried U32 -> U32 -> U32 type, and its caller supplies x => y => (... : U32). Leading-template clauses and nested lambdas are both supported syntax. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/spec/comp_curried_lambda.bend:7-14,23-27",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/spec/comp_curried_lambda.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/spec/comp_erased_args.bend",
+      "sha256": "5f19a06f78392e020be119258f7e48d9e663b114b54801c7b2d2dde3d459b994",
+      "classification": "malformed-syntax",
+      "reason": "The law places 'for ~g: Nat -> Nat' after earlier ordinary or erased for clauses. The official law parser requires every ~ clause to be in the leading contiguous template-clause prefix and immediately rejects this ~ with expected a plain clause (only leading clauses take ~). This is the current clause-order syntax invariant, not the fixture's specialization/type/runtime result.",
+      "evidence": [
+        "tests/spec/comp_erased_args.bend:11-13",
+        "bend2/bend.ts:2542-2565 (leading-template clause restriction)",
+        "Official book_load of tests/spec/comp_erased_args.bend: expected a plain clause (only leading clauses take ~), observed ~ at line 13"
+      ]
+    },
+    {
+      "file": "tests/spec/comp_generic_dedupe.bend",
+      "sha256": "17d5d494f57962f28584258b83ebd2c6644973bcffdeb0d0b709e90be49c0653",
+      "classification": "malformed-syntax",
+      "reason": "The law places 'for ~f: A -> B' after earlier ordinary or erased for clauses. The official law parser requires every ~ clause to be in the leading contiguous template-clause prefix and immediately rejects this ~ with expected a plain clause (only leading clauses take ~). This is the current clause-order syntax invariant, not the fixture's specialization/type/runtime result.",
+      "evidence": [
+        "tests/spec/comp_generic_dedupe.bend:13-15",
+        "bend2/bend.ts:2542-2565 (leading-template clause restriction)",
+        "Official book_load of tests/spec/comp_generic_dedupe.bend: expected a plain clause (only leading clauses take ~), observed ~ at line 15"
+      ]
+    },
+    {
+      "file": "tests/spec/comp_generic_mint.bend",
+      "sha256": "c17292800ee47ec2c9cdc4f60b7465c03837973c89e13f3c1de72afdd66e68e0",
+      "classification": "malformed-syntax",
+      "reason": "The law places 'for ~f: A -> B' after earlier ordinary or erased for clauses. The official law parser requires every ~ clause to be in the leading contiguous template-clause prefix and immediately rejects this ~ with expected a plain clause (only leading clauses take ~). This is the current clause-order syntax invariant, not the fixture's specialization/type/runtime result.",
+      "evidence": [
+        "tests/spec/comp_generic_mint.bend:13-15",
+        "bend2/bend.ts:2542-2565 (leading-template clause restriction)",
+        "Official book_load of tests/spec/comp_generic_mint.bend: expected a plain clause (only leading clauses take ~), observed ~ at line 15"
+      ]
+    },
+    {
+      "file": "tests/spec/comp_instantiation_error.bend",
+      "sha256": "c59c34cb3823378ec87de1f6bc52d5964c0ee840a05e46ff3ec0dfd2d149046b",
+      "classification": "malformed-syntax",
+      "reason": "The law places 'for ~f: A -> B' after earlier ordinary or erased for clauses. The official law parser requires every ~ clause to be in the leading contiguous template-clause prefix and immediately rejects this ~ with expected a plain clause (only leading clauses take ~). This is the current clause-order syntax invariant, not the fixture's specialization/type/runtime result.",
+      "evidence": [
+        "tests/spec/comp_instantiation_error.bend:13-15",
+        "bend2/bend.ts:2542-2565 (leading-template clause restriction)",
+        "Official book_load of tests/spec/comp_instantiation_error.bend: expected a plain clause (only leading clauses take ~), observed ~ at line 15"
+      ]
+    },
+    {
+      "file": "tests/spec/comp_late_param.bend",
+      "sha256": "21565e69f6d8c62cd61a21523963aec62342a6b62ab52956821a5e2850cb1d92",
+      "classification": "malformed-syntax",
+      "reason": "The law places 'for ~f: U32 -> U32' after earlier ordinary or erased for clauses. The official law parser requires every ~ clause to be in the leading contiguous template-clause prefix and immediately rejects this ~ with expected a plain clause (only leading clauses take ~). This is the current clause-order syntax invariant, not the fixture's specialization/type/runtime result.",
+      "evidence": [
+        "tests/spec/comp_late_param.bend:11-13",
+        "bend2/bend.ts:2542-2565 (leading-template clause restriction)",
+        "Official book_load of tests/spec/comp_late_param.bend: expected a plain clause (only leading clauses take ~), observed ~ at line 13"
+      ]
+    },
+    {
+      "file": "tests/spec/comp_let_split.bend",
+      "sha256": "555316b27c29756661cf1cdd3adcaf2eb6741f81268b039e1ba5155a67ae19f1",
+      "classification": "malformed-syntax",
+      "reason": "The law places 'for ~p: A -> B2' after earlier ordinary or erased for clauses. The official law parser requires every ~ clause to be in the leading contiguous template-clause prefix and immediately rejects this ~ with expected a plain clause (only leading clauses take ~). This is the current clause-order syntax invariant, not the fixture's specialization/type/runtime result.",
+      "evidence": [
+        "tests/spec/comp_let_split.bend:16-18",
+        "bend2/bend.ts:2542-2565 (leading-template clause restriction)",
+        "Official book_load of tests/spec/comp_let_split.bend: expected a plain clause (only leading clauses take ~), observed ~ at line 18"
+      ]
+    },
+    {
+      "file": "tests/spec/comp_map_mint.bend",
+      "sha256": "05c10856eeea1e5235287a71933765be7aafb83f05b60cf43cd62a7be23a3426",
+      "classification": "valid-source-grammar-gap",
+      "reason": "law map begins with for ~f: U32 -> U32 and recursively passes f; the caller supplies a lambda over a constructed L list. Template specialization/minting behavior does not make these forms syntactically invalid. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "evidence": [
+        "tests/spec/comp_map_mint.bend:11-21,34-38",
+        "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
+        "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
+        "Official book_load of tests/spec/comp_map_mint.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/spec/comp_mint_dedupe.bend",
+      "sha256": "d08dbad80c9b08e7698c47351aa6de1c50ea2f5f2fde41fed46085b22f13f5dd",
+      "classification": "malformed-syntax",
+      "reason": "The filter body uses removed if p(h): ... else: ... syntax. if is not a current statement keyword, so parse_body reads ordinary terms and requires = for this multi-term body; the actual parser observes : and reports expected =. Its leading ~ template clauses are valid, but the whole file is syntactically malformed for this independent reason.",
+      "evidence": [
+        "tests/spec/comp_mint_dedupe.bend:16-24",
+        "bend2/bend.ts:1506-1510,2286-2334",
+        "Official book_load of tests/spec/comp_mint_dedupe.bend rejects before checking/runtime; - expected : '='; - observed : ':'"
+      ]
+    },
+    {
+      "file": "tests/spec/mint_count.bend",
+      "sha256": "9cd74ed5bbf4edec4c2b842b54bf257a37c377089a63ff95c231a10c821479bb",
+      "classification": "malformed-syntax",
+      "reason": "The law places 'for ~g: U32 -> U32' after earlier ordinary or erased for clauses. The official law parser requires every ~ clause to be in the leading contiguous template-clause prefix and immediately rejects this ~ with expected a plain clause (only leading clauses take ~). This is the current clause-order syntax invariant, not the fixture's specialization/type/runtime result.",
+      "evidence": [
+        "tests/spec/mint_count.bend:9-11",
+        "bend2/bend.ts:2542-2565 (leading-template clause restriction)",
+        "Official book_load of tests/spec/mint_count.bend: expected a plain clause (only leading clauses take ~), observed ~ at line 11"
+      ]
+    }
+  ]
+}

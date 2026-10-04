@@ -1,7 +1,7 @@
 {
   "reference_commit": "79df8d9c40722ee9507a1e253f283b51025f9d6c",
   "review_complete": true,
-  "policy": "Every observed rejection was reviewed against the pinned official parser and source. Malformed syntax is an expected rejection. Valid-source grammar gaps remain failing compatibility cases, never exemptions. New rejections and previously rejected fixtures becoming accepted require explicit review. Diagnostic mode never updates this baseline.",
+  "policy": "Reviewed malformed-syntax cases must reject; reviewed valid-syntax and compiler-only-constraint cases must retain a clean editor tree. Valid-source-grammar-gap remains a failing class. Name-sensitive cross-declaration constraints are explicitly compiler-owned, never modeled by input special cases. Every transition retains authoritative source evidence and content hashes; new rejection or positive-case regression fails. Diagnostic mode never updates the baseline.",
   "reviews": [
     {
       "file": "tests/check/array_boxed_default.bend",
@@ -149,8 +149,8 @@
     {
       "file": "tests/check/axiom_runtime_capture.bend",
       "sha256": "0682afc1c4ab82cc6b6266fb6532494318d7c22f363c77a9c887e58c14e9b934",
-      "classification": "valid-source-grammar-gap",
-      "reason": "The law tpl has leading for ~f: U32 -> U32 and the caller passes a lambda referring to the unfilled magic law. An axiom/runtime-capture safety failure concerns checking/specialization, not the syntax of this template clause or lambda. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "The law tpl has leading for ~f: U32 -> U32 and the caller passes a lambda referring to the unfilled magic law. An axiom/runtime-capture safety failure concerns checking/specialization, not the syntax of this template clause or lambda. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/check/axiom_runtime_capture.bend:9-24",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -172,8 +172,8 @@
     {
       "file": "tests/check/comp_splice_tuple_goal.bend",
       "sha256": "bbc91497472971e09640cc01a1b91073f7cb3fa73296f7fe891d0aae4cdf1467",
-      "classification": "valid-source-grammar-gap",
-      "reason": "The source has valid leading law-template clause for ~f and valid tuple destructuring (a, b) = wrap(...) followed by an annotated sum. Direct official parse_body parses the complete main body as a Local with a tuple PCtr pattern and App value, consuming all non-comment source. The full load then rejects the computed scrutinee in body_flatten/match_flatten: this is a flattening restriction, not malformed syntax. Tree-sitter rejects the valid ~ clause; the grammar gap must fail the gate.",
+      "classification": "valid-syntax",
+      "reason": "The source has valid leading law-template clause for ~f and valid tuple destructuring (a, b) = wrap(...) followed by an annotated sum. Direct official parse_body parses the complete main body as a Local with a tuple PCtr pattern and App value, consuming all non-comment source. The full load then rejects the computed scrutinee in body_flatten/match_flatten: this is a flattening restriction, not malformed syntax. Tree-sitter rejects the valid ~ clause; the grammar gap must fail the gate. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/check/comp_splice_tuple_goal.bend:12-25",
         "bend2/bend.ts:2179-2192,2286-2350,2542-2582,2634-2657,2734-2740",
@@ -238,8 +238,8 @@
     {
       "file": "tests/check/typed_let_mismatch.bend",
       "sha256": "c3c6ec82018aa9247f71e6211e9be6e9361807baab53d91c0d0b5a4e3438d604",
-      "classification": "valid-source-grammar-gap",
-      "reason": "z : Nat = 30 is supported typed-let syntax; parse_body constructs an annotation on the binding value. The numeric literal/type mismatch, if rejected by checking, is not malformed syntax. The official book_load accepts the entire unchanged file, while tree-sitter rejects the colon. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "z : Nat = 30 is supported typed-let syntax; parse_body constructs an annotation on the binding value. The numeric literal/type mismatch, if rejected by checking, is not malformed syntax. The official book_load accepts the entire unchanged file, while tree-sitter rejects the colon. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/check/typed_let_mismatch.bend:4-6",
         "bend2/bend.ts:2286-2350",
@@ -348,12 +348,11 @@
     {
       "file": "tests/comptime/err_fill_short.bend",
       "sha256": "561e88657411b63b4342efc9ab45b8e3c66e05698028b88159fa1deee43801dd",
-      "classification": "malformed-syntax",
-      "reason": "law F declares two leading template clauses (~f and ~g), but def F(f): supplies only one binding name. Filling a law requires a name for each template clause as part of parse_def; the actual parse rejects the definition with expected a name for each ~ clause of the law (2). This is the explicit definition-binding syntax invariant, not a later argument type/runtime failure.",
+      "classification": "compiler-only-constraint",
+      "reason": "The token/body syntax is valid, but official parse_def looks up the prior law and compares tele.length with law.x. def F(f) supplies one parameter for two earlier template clauses. Cross-declaration name lookup and count equality are compiler-owned constraints, not representable by this context-free editor grammar. Preserve the complete law/def syntax tree; Bend/LSP remains responsible for the diagnostic.",
       "evidence": [
-        "tests/comptime/err_fill_short.bend:9-18",
-        "bend2/bend.ts:2431-2454",
-        "Official book_load of tests/comptime/err_fill_short.bend rejects before checking/runtime; - expected : a name for each ~ clause of the law (2); - observed : ':'"
+        "tests/comptime/err_fill_short.bend:4-10",
+        "bend2/bend.ts:2431-2456 (resolved prior-law lookup and tele.length < law.x)"
       ]
     },
     {
@@ -381,8 +380,8 @@
     {
       "file": "tests/comptime/law.bend",
       "sha256": "d2ae80cfb9b2bfe885a50f4dc131669e364d7feccb0776c9f45274bf03b330d4",
-      "classification": "valid-source-grammar-gap",
-      "reason": "law twice has a leading template clause for ~f: Nat -> Nat, and both call sites use ~-prefixed template arguments. These are supported law-template and call forms, not syntax errors. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "law twice has a leading template clause for ~f: Nat -> Nat, and both call sites use ~-prefixed template arguments. These are supported law-template and call forms, not syntax errors. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/comptime/law.bend:6-17",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -393,8 +392,8 @@
     {
       "file": "tests/comptime/law_two.bend",
       "sha256": "6af770922b76879f415a0645c40e637afa46463c847687f7c4afa30841d1176d",
-      "classification": "valid-source-grammar-gap",
-      "reason": "law F has two contiguous leading template clauses for ~f and for ~g, def F(f, g) binds both names, and its caller supplies both ~ arguments. The current leading-prefix and binding-name rules are satisfied. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "law F has two contiguous leading template clauses for ~f and for ~g, def F(f, g) binds both names, and its caller supplies both ~ arguments. The current leading-prefix and binding-name rules are satisfied. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/comptime/law_two.bend:8-17",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -526,8 +525,8 @@
     {
       "file": "tests/import/comp_splice_boundary.bend",
       "sha256": "21dba2f2cf23454d8c6e3762eaf74601da80cd7a8b73fb4667f7eb9377a84811",
-      "classification": "valid-source-grammar-gap",
-      "reason": "law ct_each uses a leading for ~f: U32 -> U32 and recursively applies that template function while constructing CtC values. The lambda call across ct_total/ct_each is syntactically valid irrespective of specialization-boundary checks. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "law ct_each uses a leading for ~f: U32 -> U32 and recursively applies that template function while constructing CtC values. The lambda call across ct_total/ct_each is syntactically valid irrespective of specialization-boundary checks. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/import/comp_splice_boundary.bend:12-22,35-39",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -538,8 +537,8 @@
     {
       "file": "tests/import/unsafe-law/fill.bend",
       "sha256": "86314f6a6a7719595d10751a3d1d051fcad2918fe5fd0244ffb3a7b49db4ba89",
-      "classification": "valid-source-grammar-gap",
-      "reason": "def Laws.false_law?(): is the supported ? unsafe marker immediately after a qualified definition name. It fills the imported law through the Laws alias; ownership/unsafe-law safety checks do not invalidate this spelling. Official book_load resolves its imports and accepts the entire unchanged file. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "def Laws.false_law?(): is the supported ? unsafe marker immediately after a qualified definition name. It fills the imported law through the Laws alias; ownership/unsafe-law safety checks do not invalidate this spelling. Official book_load resolves its imports and accepts the entire unchanged file. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/import/unsafe-law/fill.bend:3-6",
         "bend2/bend.ts:952-1013,1593-1606,2431-2439",
@@ -549,8 +548,8 @@
     {
       "file": "tests/import/unsafe-law/safe.bend",
       "sha256": "7a5b99d94d16cbda7f61cadf5b13d6b998ba6a03adff832e158fb22af121cd0b",
-      "classification": "valid-source-grammar-gap",
-      "reason": "def spin?() -> Empty: is supported unsafe-definition marker syntax, and def Laws.one(): is a qualified imported-law fill. Possible unsafe dependency/proof issues are checker concerns. Official book_load resolves the imports and accepts both definitions in the unchanged file. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "def spin?() -> Empty: is supported unsafe-definition marker syntax, and def Laws.one(): is a qualified imported-law fill. Possible unsafe dependency/proof issues are checker concerns. Official book_load resolves the imports and accepts both definitions in the unchanged file. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/import/unsafe-law/safe.bend:2-9",
         "bend2/bend.ts:952-1013,2431-2464",
@@ -560,8 +559,8 @@
     {
       "file": "tests/import/unsafe_law_own.bend",
       "sha256": "4fd8d6fa5928ab132902e44c6ae65e11156d40860455400135df58a62b534a24",
-      "classification": "valid-source-grammar-gap",
-      "reason": "def Laws.false_law?(): uses the supported unsafe marker after a qualified imported-law name, followed by a call to that law. Ownership and recursion/safety analysis are not syntax errors. Official book_load resolves the imports and accepts the entire unchanged file. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "def Laws.false_law?(): uses the supported unsafe marker after a qualified imported-law name, followed by a call to that law. Ownership and recursion/safety analysis are not syntax errors. Official book_load resolves the imports and accepts the entire unchanged file. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/import/unsafe_law_own.bend:2-6",
         "bend2/bend.ts:952-1013,1593-1606,2431-2439",
@@ -626,8 +625,8 @@
     {
       "file": "tests/page/comp_param_match.bend",
       "sha256": "eaecec1093786e959ff5e516a24cf1f55d30294f2e8d3e3d1390b5fcd2694d2b",
-      "classification": "valid-source-grammar-gap",
-      "reason": "law t begins with for ~f: U32 -> U32; its def matches f against the braced declared constructor U32{w}. Whether that pattern is type-compatible with the function-valued template parameter is a checker question, not a syntax rejection. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "law t begins with for ~f: U32 -> U32; its def matches f against the braced declared constructor U32{w}. Whether that pattern is type-compatible with the function-valued template parameter is a checker question, not a syntax rejection. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/page/comp_param_match.bend:7-20",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -1042,8 +1041,8 @@
     {
       "file": "tests/parse/typed_let_sugar.bend",
       "sha256": "0ce930bafaa384b412adc9c2f8e78df32ca1511cb7b1c3060f7f0535147087fc",
-      "classification": "valid-source-grammar-gap",
-      "reason": "The official parser accepts the erased typed let -n : Nat = 5n, typed let z : U32 = 30, and grouped typed-let sequence (x : U32 = 1; y : U32 = 2; z + x + y : U32). Official book_valid also succeeds, and full interpreter normalization returns 33. The observed Tree-sitter rejection is therefore a valid-source grammar gap and must remain release-blocking.",
+      "classification": "valid-syntax",
+      "reason": "The official parser accepts the erased typed let -n : Nat = 5n, typed let z : U32 = 30, and grouped typed-let sequence (x : U32 = 1; y : U32 = 2; z + x + y : U32). Official book_valid also succeeds, and full interpreter normalization returns 33. The observed Tree-sitter rejection is therefore a valid-source grammar gap and must remain release-blocking. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/parse/typed_let_sugar.bend:5-8",
         "bend2/bend.ts:1502,2179-2192,2311-2350",
@@ -1085,8 +1084,8 @@
     {
       "file": "tests/proof/fold_assoc.bend",
       "sha256": "394a826cdadc0c6178c0a8addcecbd257f77038220b0adb7d36d3944158f93e4",
-      "classification": "valid-source-grammar-gap",
-      "reason": "fold and fold_assoc have leading template binders/clauses ~op and ~assoc; dependent equality types and ~-prefixed recursive/caller arguments use official syntax. Proof checking cannot justify tree-sitter rejection of their valid leading template clauses. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "fold and fold_assoc have leading template binders/clauses ~op and ~assoc; dependent equality types and ~-prefixed recursive/caller arguments use official syntax. Proof checking cannot justify tree-sitter rejection of their valid leading template clauses. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/proof/fold_assoc.bend:8-29,45-53",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -1097,8 +1096,8 @@
     {
       "file": "tests/proof/model_false.bend",
       "sha256": "3f098485e64f59835ff3aac4013001c56ba92c2f8e2fc9b3b74f1793c3136825",
-      "classification": "valid-source-grammar-gap",
-      "reason": "law L begins with contiguous ~f and ~h clauses containing dependent function/equality types. The logically overstrong premise asserted by ~h does not make its dependent equality-type syntax malformed. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "law L begins with contiguous ~f and ~h clauses containing dependent function/equality types. The logically overstrong premise asserted by ~h does not make its dependent equality-type syntax malformed. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/proof/model_false.bend:2-8",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -1109,8 +1108,8 @@
     {
       "file": "tests/proof/model_lambdas.bend",
       "sha256": "6696b75477c3a8a52e3a00b0d32737a6a44749e5424ba7589b089e895e5f4a92",
-      "classification": "valid-source-grammar-gap",
-      "reason": "law L begins with contiguous ~f and ~h clauses whose types are dependent functions ending in equality propositions; def L binds their plain names. The extra quantified Nat parameter of h is valid dependent syntax. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "law L begins with contiguous ~f and ~h clauses whose types are dependent functions ending in equality propositions; def L binds their plain names. The extra quantified Nat parameter of h is valid dependent syntax. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/proof/model_lambdas.bend:2-8",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -1121,8 +1120,8 @@
     {
       "file": "tests/proof/model_order.bend",
       "sha256": "5b416dbf2a6f070815853ec799a554d53e9f698a9683aa32597bddd5be5b547f",
-      "classification": "valid-source-grammar-gap",
-      "reason": "shape_t and choice_t each use a contiguous leading ~mk/~ok prefix, with dependent equality witnesses and plain-name law-filling defs. The later Vec/Choice type definitions and deep dependent type do not invalidate those clauses. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "shape_t and choice_t each use a contiguous leading ~mk/~ok prefix, with dependent equality witnesses and plain-name law-filling defs. The later Vec/Choice type definitions and deep dependent type do not invalidate those clauses. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/proof/model_order.bend:11-17,20-45",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -1133,8 +1132,8 @@
     {
       "file": "tests/proof/reassoc4.bend",
       "sha256": "bc08cb06c23d7cccdcd314b1ced7e457b7c9ccf9056f40e35703d344874c96df",
-      "classification": "valid-source-grammar-gap",
-      "reason": "reassoc4 begins with ~op and ~assoc clauses followed by quantified ordinary a/b/c/d clauses. Its rewrites and ~-prefixed calls use supported syntax; any associativity proof obligation is not a syntax oracle. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "reassoc4 begins with ~op and ~assoc clauses followed by quantified ordinary a/b/c/d clauses. Its rewrites and ~-prefixed calls use supported syntax; any associativity proof obligation is not a syntax oracle. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/proof/reassoc4.bend:9-21,37-42",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -1145,8 +1144,8 @@
     {
       "file": "tests/proof/template_law.bend",
       "sha256": "61605600b98cda875297e4733344df8872528be76174c7cb434fe8dc93962189",
-      "classification": "valid-source-grammar-gap",
-      "reason": "comm3 begins with ~op and ~comm clauses followed by +a/+b/+c quantity-marked ordinary clauses. Its dependent equality, rewrite bodies and ~-prefixed calls are supported syntax independently of proof checking. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "comm3 begins with ~op and ~comm clauses followed by +a/+b/+c quantity-marked ordinary clauses. Its dependent equality, rewrite bodies and ~-prefixed calls are supported syntax independently of proof checking. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/proof/template_law.bend:7-18,26-31",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -1223,8 +1222,8 @@
     {
       "file": "tests/run/ctr_dotted_field.bend",
       "sha256": "cb30bd49760d4bdf33b66f34ee23449aa503e38823f6beb7e31e04157295ccc3",
-      "classification": "valid-source-grammar-gap",
-      "reason": "Outer{a: Inner, a.b: U32} has a legal dotted field name a.b. parse_name accepts dot-joined identifier words, and parse_tele reads field names with it; a and a.b are distinct names. Official book_load accepts the entire unchanged declaration, proof and main, while tree-sitter rejects a. in the field. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "Outer{a: Inner, a.b: U32} has a legal dotted field name a.b. parse_name accepts dot-joined identifier words, and parse_tele reads field names with it; a and a.b are distinct names. Official book_load accepts the entire unchanged declaration, proof and main, while tree-sitter rejects a. in the field. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/run/ctr_dotted_field.bend:8-14,16-23",
         "bend2/bend.ts:1593-1614,2386-2415,2529-2537",
@@ -1234,8 +1233,8 @@
     {
       "file": "tests/run/unsafe_mark.bend",
       "sha256": "ae44dfbf004312de001128f5c8587aba858b611f5e6515a91edf9c619c84930e",
-      "classification": "valid-source-grammar-gap",
-      "reason": "wnf? and wnf_app? use the officially supported post-name ? unsafe-definition marker. Their recursive lambda-containing datatype and matching definitions are parsed successfully by book_load; possible runtime recursion/safety checks do not justify rejecting ?. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "wnf? and wnf_app? use the officially supported post-name ? unsafe-definition marker. Their recursive lambda-containing datatype and matching definitions are parsed successfully by book_load; possible runtime recursion/safety checks do not justify rejecting ?. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/run/unsafe_mark.bend:5-22,33-34",
         "bend2/bend.ts:2431-2464",
@@ -1245,8 +1244,8 @@
     {
       "file": "tests/spec/comp_any_term.bend",
       "sha256": "72b4a03bcfbd43eaf098acd7aaa6716ce2cbb0f38e4bbe7ef4f81d5ebbaacfde",
-      "classification": "valid-source-grammar-gap",
-      "reason": "law use begins with for ~f: U32 -> U32; caller binds an annotated lambda term to g and passes g as the template argument. Whether a specialization can accept that computed term is separate from the valid clause/lambda/annotation syntax. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "law use begins with for ~f: U32 -> U32; caller binds an annotated lambda term to g and passes g as the template argument. Whether a specialization can accept that computed term is separate from the valid clause/lambda/annotation syntax. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/spec/comp_any_term.bend:9-15,24-36",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -1257,8 +1256,8 @@
     {
       "file": "tests/spec/comp_capture_erase.bend",
       "sha256": "ae84ed786c98f85b3f42ed09e19e6f85aeeb7fd528bfa7247a3daadd81f43d1c",
-      "classification": "valid-source-grammar-gap",
-      "reason": "law cp has a leading template clause for ~f: Unit -> (F32 & D), and the caller supplies a tuple/constructor-producing lambda. The erased -f1 constructor field and erased mk parameter are also legal syntax; capture-erasure checks are not syntax evidence. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "law cp has a leading template clause for ~f: Unit -> (F32 & D), and the caller supplies a tuple/constructor-producing lambda. The erased -f1 constructor field and erased mk parameter are also legal syntax; capture-erasure checks are not syntax evidence. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/spec/comp_capture_erase.bend:9-18,20-25,36-40",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -1269,8 +1268,8 @@
     {
       "file": "tests/spec/comp_capture_linear.bend",
       "sha256": "ee2adecd86b24feca033884e028f752d5933ea4c5572d946df2dd79176577bea",
-      "classification": "valid-source-grammar-gap",
-      "reason": "law map has the leading for ~f: U32 -> U32; bad supplies x => g(x), capturing its ordinary g parameter. Whether the capture is permissible in a specialized template is a semantic quantity/capture question. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "law map has the leading for ~f: U32 -> U32; bad supplies x => g(x), capturing its ordinary g parameter. Whether the capture is permissible in a specialized template is a semantic quantity/capture question. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/spec/comp_capture_linear.bend:14-24,26-38",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -1281,8 +1280,8 @@
     {
       "file": "tests/spec/comp_capture_share.bend",
       "sha256": "91ee08be48d5c36e5819a9e9fb9a101b464df4ef31d7ba03667c15bceb475e2d",
-      "classification": "valid-source-grammar-gap",
-      "reason": "law apply starts with for ~f: U32 -> U32; once passes a lambda capturing k in an annotated arithmetic expression. Template capture/share checking is independent of this valid clause, lambda and call syntax. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "law apply starts with for ~f: U32 -> U32; once passes a lambda capturing k in an annotated arithmetic expression. Template capture/share checking is independent of this valid clause, lambda and call syntax. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/spec/comp_capture_share.bend:13-27,29-33",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -1293,8 +1292,8 @@
     {
       "file": "tests/spec/comp_curried_lambda.bend",
       "sha256": "a3933a91a9dd7350cd7f17d2c83c268bc617b3e87dc2209eb0c0635aff33844c",
-      "classification": "valid-source-grammar-gap",
-      "reason": "law app2 has a leading ~f clause with a curried U32 -> U32 -> U32 type, and its caller supplies x => y => (... : U32). Leading-template clauses and nested lambdas are both supported syntax. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "law app2 has a leading ~f clause with a curried U32 -> U32 -> U32 type, and its caller supplies x => y => (... : U32). Leading-template clauses and nested lambdas are both supported syntax. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/spec/comp_curried_lambda.bend:7-14,23-27",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
@@ -1371,8 +1370,8 @@
     {
       "file": "tests/spec/comp_map_mint.bend",
       "sha256": "05c10856eeea1e5235287a71933765be7aafb83f05b60cf43cd62a7be23a3426",
-      "classification": "valid-source-grammar-gap",
-      "reason": "law map begins with for ~f: U32 -> U32 and recursively passes f; the caller supplies a lambda over a constructed L list. Template specialization/minting behavior does not make these forms syntactically invalid. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted.",
+      "classification": "valid-syntax",
+      "reason": "law map begins with for ~f: U32 -> U32 and recursively passes f; the caller supplies a lambda over a constructed L list. Template specialization/minting behavior does not make these forms syntactically invalid. The pinned official book_load accepted the entire unchanged file (including imports) without running checker/runtime; tree-sitter rejects its ~ clause. This grammar gap must fail the gate, not be exempted. This is now an expected clean editor parse after the grammar repair; rejection is a regression.",
       "evidence": [
         "tests/spec/comp_map_mint.bend:11-21,34-38",
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",

@@ -73,7 +73,7 @@ def validate_reference(root: Path, reference: dict, baseline: dict) -> list[Path
         if name in seen or name not in names:
             raise RuntimeError(f"duplicate or missing reviewed fixture: {name}")
         seen.add(name)
-        if review["classification"] not in {"malformed-syntax", "valid-source-grammar-gap"}:
+        if review["classification"] not in {"malformed-syntax", "valid-source-grammar-gap", "valid-syntax", "compiler-only-constraint"}:
             raise RuntimeError(f"invalid rejection classification: {name}")
         if not review["reason"].strip() or not review["evidence"]:
             raise RuntimeError(f"missing explicit review evidence: {name}")
@@ -194,7 +194,10 @@ def review_results(results: list[dict], baseline: dict) -> dict:
     rejected = {entry["file"] for entry in results if entry["status"] == "rejected"}
     accepted = {entry["file"] for entry in results if entry["status"] == "accepted"}
     new = sorted(rejected - reviews.keys())
-    formerly = sorted(accepted & reviews.keys())
+    expected_rejected = {name for name, review in reviews.items()
+                         if review["classification"] in {"malformed-syntax", "valid-source-grammar-gap"}}
+    formerly = sorted(accepted & expected_rejected)
+    regressions = sorted((rejected & reviews.keys()) - expected_rejected)
     gaps = sorted(name for name in rejected & reviews.keys()
                   if reviews[name]["classification"] == "valid-source-grammar-gap")
     infrastructure = [entry["file"] for entry in results if entry["status"] not in {"accepted", "rejected"}]
@@ -207,11 +210,14 @@ def review_results(results: list[dict], baseline: dict) -> dict:
         reasons.append(f"{len(formerly)} formerly rejected fixtures now accepted; review required")
     if gaps:
         reasons.append(f"{len(gaps)} reviewed valid-source grammar gaps remain")
+    if regressions:
+        reasons.append(f"{len(regressions)} reviewed editor-syntax fixtures now rejected")
     if infrastructure:
         reasons.append(f"{len(infrastructure)} files timed out or failed in the parser worker")
     return {"passed": not reasons, "reasons": reasons,
             "new_rejections": new, "formerly_rejected_accepted": formerly,
-            "valid_source_gaps": gaps, "infrastructure_failures": infrastructure}
+            "valid_source_gaps": gaps, "accepted_regressions": regressions,
+            "infrastructure_failures": infrastructure}
 
 
 def main() -> int:
@@ -260,6 +266,8 @@ def main() -> int:
         print(f"FORMERLY REJECTED, NOW ACCEPTED: {name}")
     for name in report["release_gate"].get("valid_source_gaps", []):
         print(f"VALID-SOURCE GRAMMAR GAP: {name}")
+    for name in report["release_gate"].get("accepted_regressions", []):
+        print(f"EDITOR-SYNTAX REGRESSION: {name}")
     for name in report["release_gate"].get("infrastructure_failures", []):
         print(f"TIMEOUT/WORKER FAILURE: {name}")
     print(f"Per-file report: {args.report}")

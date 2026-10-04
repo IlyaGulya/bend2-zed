@@ -7,7 +7,7 @@ repository = "https://github.com/IlyaGulya/bend2-zed"
 
 [grammars.bend]
 repository = "https://github.com/IlyaGulya/tree-sitter-bend2"
-rev = "7a55a8fba3b32b0b6a8ddb0c93cf70530ded13f8"
+rev = "5acf317455d55be8670287043a18f2f10e83fad8"
 
 [language_servers.bend2]
 name = "Bend 2 Language Server"

@@ -46,8 +46,14 @@
       (identifier) @constructor .)
   ])
 
+(function_definition
+  unsafe: "?" @attribute)
+
 (field_declaration
-  name: (identifier) @property)
+  name: [
+    (identifier) @property
+    (scoped_identifier (identifier) @property .)
+  ])
 
 (constructor_field
   name: (identifier) @property)
@@ -56,7 +62,10 @@
   name: (identifier) @property)
 
 (parameter
-  name: (identifier) @variable.parameter)
+  name: [
+    (identifier) @variable.parameter
+    (scoped_identifier (identifier) @variable.parameter .)
+  ])
 
 (for_clause
   name: (identifier) @variable.parameter)

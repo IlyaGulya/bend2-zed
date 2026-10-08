@@ -1,7 +1,7 @@
 use std::{env, path::PathBuf};
 use zed_extension_api::{self as zed, settings::LspSettings, LanguageServerId, Result, Worktree};
 
-const RELEASE: &str = "v0.2.5";
+const RELEASE: &str = "v0.5.0";
 
 struct Bend2Extension;
 
@@ -65,7 +65,11 @@ impl zed::Extension for Bend2Extension {
         let mut environment: std::collections::HashMap<_, _> =
             worktree.shell_env().into_iter().collect();
         if let Some(overrides) = binary.as_ref().and_then(|binary| binary.env.as_ref()) {
-            environment.extend(overrides.iter().map(|(key, value)| (key.clone(), value.clone())));
+            environment.extend(
+                overrides
+                    .iter()
+                    .map(|(key, value)| (key.clone(), value.clone())),
+            );
         }
         Ok(zed::Command {
             command,

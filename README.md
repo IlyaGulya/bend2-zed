@@ -45,7 +45,49 @@ Known limits: damaged nested matches retain keyword colors but do not guarantee 
 
 The extension uses [the Rust bend2-lsp](https://github.com/IlyaGulya/bend2-lsp-rs), including completion, signature help, navigation, references, rename, formatting, semantic tokens, and compiler diagnostics. Source-based features are indexed, not compiler-derived type inference. Compiler checks require an installed `bend` CLI and are limited by its diagnostic output.
 
-Automatic installation supports macOS, GNU/glibc Linux, and Windows on x86_64 and ARM64. The extension pins the stable `v0.2.5` release. Server upgrades follow extension releases, not a floating nightly/latest channel. A user-supplied binary is never installed or updated by the extension.
+Automatic installation supports macOS, GNU/glibc Linux, and Windows on x86_64 and ARM64. The extension pins the stable `v0.5.0` release, including valid import completion, automatic import suggestions, and indexed symbol auto-import. Server upgrades follow extension releases, not a floating nightly/latest channel. A user-supplied binary is never installed or updated by the extension.
+
+### Organize imports
+
+Focus the `.bend` editor, open the command palette and run **editor: organize
+imports** (`editor::OrganizeImports`). The default shortcut is **Alt+Shift+O**
+(**Option+Shift+O** on macOS). No diagnostic, import selection, or cursor on an
+import is required: Zed requests `source.organizeImports` for the whole current
+buffer and applies the returned edit, including unsaved changes.
+
+This requires a server with Organize Imports support (v0.4.0 or newer). A
+configured binary or one found on PATH takes precedence over the extension's
+download; check the active server if the command does nothing.
+
+Before:
+
+```bend
+import ./z.bend as Z # z documentation
+# dependency documentation
+import ./dep.bend as D
+```
+
+After:
+
+```bend
+# dependency documentation
+import ./dep.bend as D
+import ./z.bend as Z # z documentation
+```
+
+Imports are sorted by written path and alias within each leading group.
+Blank lines and incomplete import suffixes separate groups. Distinct aliases
+remain; equivalent indexed targets with the same alias are deduplicated and
+their comments retained. Conflicting aliases and multiple unaliased targets
+keep their relative order. Comments stay attached, LF/CRLF and final-newline
+presence are preserved, and the rest of the buffer is unchanged.
+**Unused imports are not removed.**
+
+An already organized file, a file without imports, or a group that cannot be
+safely changed produces no action. Zed then leaves the buffer unchanged, without
+a success message; repeating the command should normally have this result.
+See the server's [full rules](https://github.com/IlyaGulya/bend2-lsp-rs#organize-imports-in-zed).
+
 
 ## Configuration and debugging
 
@@ -67,6 +109,37 @@ Use Zed user settings for personal paths and debug output; use `.zed/settings.js
 ```
 
 For a locally built server, set `lsp.bend2.binary.path` to its absolute executable path. Optional `binary.arguments` and `binary.env` are forwarded to the server. Leave the path unset to retain automatic installation.
+
+### Automatic import completion
+
+Enable automatic LSP suggestions using the exact language name `"Bend 2"`:
+
+```json
+{
+  "languages": {
+    "Bend 2": {
+      "show_completions_on_input": true,
+      "completions": { "lsp": true }
+    }
+  }
+}
+```
+
+After `import `, type a file-name prefix or fuzzy abbreviation normally, for
+example `apd` for `./nested/append.bend`, or continue a directory path with `/`.
+A manual completion command is not required. Suggestions use open files and
+already indexed imports, including locally cached packages; this does not scan
+the whole project or download packages. Open an unknown target file first.
+
+Zed may prioritize an active inline edit prediction over word-triggered LSP
+completion. To prefer the LSP popup in that situation, add
+`"show_edit_predictions": false` to the same `"Bend 2"` object. This affects only
+Bend 2, not other languages. No extra alphabetic trigger characters or language
+configuration overrides are needed.
+
+For a local fix, use `lsp.bend2.binary.path` as described above, then restart the
+server. A user-supplied or PATH binary takes precedence over the extension's
+pinned download, so confirm which executable Zed launches when checking a fix.
 
 For an opt-in performance capture, add the following to the same `bend2` object:
 

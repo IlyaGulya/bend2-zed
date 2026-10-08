@@ -1,6 +1,6 @@
 id = "bend2"
 name = "Bend 2"
-version = "0.1.2"
+version = "0.1.3"
 schema_version = 1
 description = "Bend 2 syntax highlighting and language server support for Zed."
 repository = "https://github.com/IlyaGulya/bend2-zed"

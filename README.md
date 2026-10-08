@@ -68,6 +68,37 @@ Use Zed user settings for personal paths and debug output; use `.zed/settings.js
 
 For a locally built server, set `lsp.bend2.binary.path` to its absolute executable path. Optional `binary.arguments` and `binary.env` are forwarded to the server. Leave the path unset to retain automatic installation.
 
+### Automatic import completion
+
+Enable automatic LSP suggestions using the exact language name `"Bend 2"`:
+
+```json
+{
+  "languages": {
+    "Bend 2": {
+      "show_completions_on_input": true,
+      "completions": { "lsp": true }
+    }
+  }
+}
+```
+
+After `import `, type a file-name prefix or fuzzy abbreviation normally, for
+example `apd` for `./nested/append.bend`, or continue a directory path with `/`.
+A manual completion command is not required. Suggestions use open files and
+already indexed imports, including locally cached packages; this does not scan
+the whole project or download packages. Open an unknown target file first.
+
+Zed may prioritize an active inline edit prediction over word-triggered LSP
+completion. To prefer the LSP popup in that situation, add
+`"show_edit_predictions": false` to the same `"Bend 2"` object. This affects only
+Bend 2, not other languages. No extra alphabetic trigger characters or language
+configuration overrides are needed.
+
+For a local fix, use `lsp.bend2.binary.path` as described above, then restart the
+server. A user-supplied or PATH binary takes precedence over the extension's
+pinned download, so confirm which executable Zed launches when checking a fix.
+
 For an opt-in performance capture, add the following to the same `bend2` object:
 
 ```json

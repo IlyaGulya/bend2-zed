@@ -1,5 +1,5 @@
 name = "Bend 2"
-grammar = "bend"
+grammar = "bend2"
 path_suffixes = ["bend"]
 line_comments = ["#"]
 tab_size = 2

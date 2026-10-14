@@ -196,7 +196,10 @@ def review_results(results: list[dict], baseline: dict) -> dict:
     new = sorted(rejected - reviews.keys())
     expected_rejected = {name for name, review in reviews.items()
                          if review["classification"] in {"malformed-syntax", "valid-source-grammar-gap"}}
-    formerly = sorted(accepted & expected_rejected)
+    malformed_accepted = sorted(name for name in accepted & reviews.keys()
+                                if reviews[name]["classification"] == "malformed-syntax")
+    resolved_gaps = sorted(name for name in accepted & reviews.keys()
+                           if reviews[name]["classification"] == "valid-source-grammar-gap")
     regressions = sorted((rejected & reviews.keys()) - expected_rejected)
     gaps = sorted(name for name in rejected & reviews.keys()
                   if reviews[name]["classification"] == "valid-source-grammar-gap")
@@ -206,8 +209,10 @@ def review_results(results: list[dict], baseline: dict) -> dict:
         reasons.append(baseline["review_blocker"])
     if new:
         reasons.append(f"{len(new)} new/unreviewed rejections require individual syntax review")
-    if formerly:
-        reasons.append(f"{len(formerly)} formerly rejected fixtures now accepted; review required")
+    if malformed_accepted:
+        reasons.append(f"{len(malformed_accepted)} reviewed malformed-syntax fixtures falsely accepted")
+    if resolved_gaps:
+        reasons.append(f"{len(resolved_gaps)} formerly rejected valid-source gaps now accepted; review required")
     if gaps:
         reasons.append(f"{len(gaps)} reviewed valid-source grammar gaps remain")
     if regressions:
@@ -215,7 +220,8 @@ def review_results(results: list[dict], baseline: dict) -> dict:
     if infrastructure:
         reasons.append(f"{len(infrastructure)} files timed out or failed in the parser worker")
     return {"passed": not reasons, "reasons": reasons,
-            "new_rejections": new, "formerly_rejected_accepted": formerly,
+            "new_rejections": new,
+            "malformed_syntax_accepted": malformed_accepted, "resolved_valid_source_gaps": resolved_gaps,
             "valid_source_gaps": gaps, "accepted_regressions": regressions,
             "infrastructure_failures": infrastructure}
 
@@ -233,7 +239,7 @@ def main() -> int:
     try:
         reference = json.loads(REFERENCE.read_text())
         baseline = json.loads(BASELINE.read_text())
-        manifest = tomllib.loads((ROOT / "extension.toml").read_text())["grammars"]["bend"]
+        manifest = tomllib.loads((ROOT / "extension.toml").read_text())["grammars"]["bend2"]
         report.update({"reference": reference, "grammar": manifest, "rejection_baseline": baseline,
                        "review_complete": baseline["review_complete"],
                        "diagnostic_note": "Expected semantic/runtime diagnostics are NOT a syntax oracle or exemption."})
@@ -262,8 +268,10 @@ def main() -> int:
         print(reason)
     for name in report["release_gate"].get("new_rejections", []):
         print(f"NEW/UNREVIEWED REJECTION: {name}")
-    for name in report["release_gate"].get("formerly_rejected_accepted", []):
-        print(f"FORMERLY REJECTED, NOW ACCEPTED: {name}")
+    for name in report["release_gate"].get("malformed_syntax_accepted", []):
+        print(f"MALFORMED-SYNTAX FALSE ACCEPTANCE: {name}")
+    for name in report["release_gate"].get("resolved_valid_source_gaps", []):
+        print(f"FORMER VALID-SOURCE GAP, NOW ACCEPTED: {name}")
     for name in report["release_gate"].get("valid_source_gaps", []):
         print(f"VALID-SOURCE GRAMMAR GAP: {name}")
     for name in report["release_gate"].get("accepted_regressions", []):

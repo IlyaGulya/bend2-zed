@@ -236,6 +236,17 @@
       ]
     },
     {
+      "file": "tests/check/monad_do_destructure.bend",
+      "sha256": "f278ac70d0756c412db9b338e437f51dd231a727fba6ccc0c1341ed0d3f434dd",
+      "classification": "malformed-syntax",
+      "reason": "Do parser does not support tuple-destructure let lines; reinterpretation rejects the enclosing term as a pattern.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/check/monad_do_destructure.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L2248-L2280",
+        "Official book_load diagnostic: Error:\n- expected : a pattern (a binder or a constructor)\n- observed : Result.bind(&1, &1, U32, Pair(U32, U32), U32, Done{(1, 2)}, p => {(Probe.a, Probe.b) : Result<&1, &1, U32, U32>})\nLocation:\n10 |   do Result<U32, U32>:\n11>|     p : U32 & U32 <- Done{(1, 2)}\n   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n12 |     (a, b) = p"
+      ]
+    },
+    {
       "file": "tests/check/typed_let_mismatch.bend",
       "sha256": "c3c6ec82018aa9247f71e6211e9be6e9361807baab53d91c0d0b5a4e3438d604",
       "classification": "valid-syntax",
@@ -367,6 +378,17 @@
       ]
     },
     {
+      "file": "tests/comptime/err_runtime.bend",
+      "sha256": "b68efe2e74159ebb06db72c8d0cd032333bed8c16b1b3eb9aaa6cdf839f246c9",
+      "classification": "malformed-syntax",
+      "reason": "A marked template argument appears after a runtime argument.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/comptime/err_runtime.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L2038-L2047",
+        "Official book_load diagnostic: Error:\n- expected : a term\n- observed : '~'\nLocation:\n 8 | def main() -> Nat:\n 9>|   app(~Nat.add(1n), 3n, ~4n)\n   |                         ^\n10 | "
+      ]
+    },
+    {
       "file": "tests/comptime/err_untyped.bend",
       "sha256": "e4883784ce5492fd022b2202a6927345cd8f5280f6fbb00e0a522119a8884d56",
       "classification": "malformed-syntax",
@@ -479,6 +501,17 @@
       ]
     },
     {
+      "file": "tests/flatten/named_column_alias.bend",
+      "sha256": "91b2681e1be6309397cc1769375abaf34abe44ef340dfdca0b17272a4392da2b",
+      "classification": "malformed-syntax",
+      "reason": "Grouped let k=x requires a continuation; the closing parenthesis is not one.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/flatten/named_column_alias.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L2179-L2191",
+        "Official book_load diagnostic: Error:\n- expected : a term\n- observed : ')'\nLocation:\n13 | def main(x):\n14>|   match (k = x):\n   |               ^\n15 |     case Z{}:"
+      ]
+    },
+    {
       "file": "tests/flatten/share_binder_syntax.bend",
       "sha256": "d987904bf1f1c200df13ac590b0317de65f6bc5fc6b2be7eaeb209538b26ccf0",
       "classification": "malformed-syntax",
@@ -523,6 +556,17 @@
       ]
     },
     {
+      "file": "tests/import/c_suffix_module.bend",
+      "sha256": "3a0955089fd545ba63dbd1194f290c801fa8b53323233be21382589a4ea815ed",
+      "classification": "malformed-syntax",
+      "reason": "Module import form/order/suffix/path validation rejects this source before filesystem lookup.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/import/c_suffix_module.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L968-L1013",
+        "Official book_load diagnostic: Error:\n- expected : an import of a .bend file\n- observed : '/lib/helper.c'\nLocation:\n6 | import Base\n7>| import /lib/helper.c as H\n  |        ^\n8 | "
+      ]
+    },
+    {
       "file": "tests/import/comp_splice_boundary.bend",
       "sha256": "21dba2f2cf23454d8c6e3762eaf74601da80cd7a8b73fb4667f7eb9377a84811",
       "classification": "valid-syntax",
@@ -532,6 +576,83 @@
         "bend2/bend.ts:2386-2415,2542-2582 (typed leading ~ template binders/clauses)",
         "bend2/bend.ts:2015-2052,2431-2485 (template calls and law-filling defs)",
         "Official book_load of tests/import/comp_splice_boundary.bend: accepted entire file before checking/runtime"
+      ]
+    },
+    {
+      "file": "tests/import/dotted_path.bend",
+      "sha256": "0732397b081352f83901f298fc4aebf9e728f5a07a6453b6037a531076610cf7",
+      "classification": "malformed-syntax",
+      "reason": "Module import form/order/suffix/path validation rejects this source before filesystem lookup.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/import/dotted_path.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L968-L1013",
+        "Official book_load diagnostic: Error:\n- expected : an import path of plain names (letters, digits, _ and -; the hub's files import the hub's)\n- observed : './LAWS.Nat.bend'\nLocation:\n5 | import Base\n6>| import ./LAWS.Nat.bend as H\n  |        ^\n7 | "
+      ]
+    },
+    {
+      "file": "tests/import/hub_head_local.bend",
+      "sha256": "36b74a75ffa176094063481136e8a9d79db5e62d360536f66d289ac3fba14836",
+      "classification": "malformed-syntax",
+      "reason": "Module import form/order/suffix/path validation rejects this source before filesystem lookup.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/import/hub_head_local.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L968-L1013",
+        "Official book_load diagnostic: Error:\n- expected : an import path of plain names (letters, digits, _ and -; the hub's files import the hub's)\n- observed : './0x0123456789abcdef0123456789abcdef/f.bend'\nLocation:\n4 | import Base\n5>| import ./0x0123456789abcdef0123456789abcdef/f.bend as F\n  |        ^\n6 | "
+      ]
+    },
+    {
+      "file": "tests/import/hub_head_path.bend",
+      "sha256": "753ac6f261d0a69035e58c63f49d1ee284431e682eae148e021360f167c00659",
+      "classification": "malformed-syntax",
+      "reason": "Module import form/order/suffix/path validation rejects this source before filesystem lookup.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/import/hub_head_path.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L968-L1013",
+        "Official book_load diagnostic: Error:\n- expected : an import path of plain names (letters, digits, _ and -; the hub's files import the hub's)\n- observed : '../0x0123456789abcdef0123456789abcdef/f.bend'\nLocation:\n5 | import Base\n6>| import ../0x0123456789abcdef0123456789abcdef/f.bend as F\n  |        ^\n7 | "
+      ]
+    },
+    {
+      "file": "tests/import/parent_segments.bend",
+      "sha256": "0dce5f6afab37414644e151b58270d8e6b51608e4ba44d237909032f36b11ffc",
+      "classification": "malformed-syntax",
+      "reason": "Module import form/order/suffix/path validation rejects this source before filesystem lookup.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/import/parent_segments.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L968-L1013",
+        "Official book_load diagnostic: Error:\n- expected : an import of a .bend file\n- observed : '/up/up/native_mod.c'\nLocation:\n5 | import Base\n6>| import /up/up/native_mod.c as M\n  |        ^\n7 | "
+      ]
+    },
+    {
+      "file": "tests/import/position_independent.bend",
+      "sha256": "6b267316e1e7070f8403cb232848341bde8fddadf3e117326d543b27f7984a61",
+      "classification": "malformed-syntax",
+      "reason": "Module import form/order/suffix/path validation rejects this source before filesystem lookup.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/import/position_independent.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L968-L1013",
+        "Official book_load diagnostic: Error:\n- expected : 'def', 'type' or 'law'\n- observed : 'i'\nLocation:\n11 | \n12>| import /late/mod.bend as L\n   | ^\n13 | "
+      ]
+    },
+    {
+      "file": "tests/import/suffix_refused.bend",
+      "sha256": "318fb515c3a02b8e550f0e08082825db4083863ec0f835d63a79408fe9b88aaf",
+      "classification": "malformed-syntax",
+      "reason": "Module import form/order/suffix/path validation rejects this source before filesystem lookup.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/import/suffix_refused.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L968-L1013",
+        "Official book_load diagnostic: Error:\n- expected : an import of a .bend file\n- observed : '/lib/words.txt'\nLocation:\n7 | import Base\n8>| import /lib/words.txt as W\n  |        ^\n9 | "
+      ]
+    },
+    {
+      "file": "tests/import/tilde_path.bend",
+      "sha256": "d57ad2c794d1eda13ab8a3f400c82560203e46bd5f50f3e319907b345d8ab6f3",
+      "classification": "malformed-syntax",
+      "reason": "Module import form/order/suffix/path validation rejects this source before filesystem lookup.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/import/tilde_path.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L968-L1013",
+        "Official book_load diagnostic: Error:\n- expected : an import path of plain names (letters, digits, _ and -; the hub's files import the hub's)\n- observed : './law.k~B.bend'\nLocation:\n5 | import Base\n6>| import ./law.k~B.bend as E\n  |        ^\n7 | "
       ]
     },
     {
@@ -789,6 +910,28 @@
       ]
     },
     {
+      "file": "tests/parse/decl_name_words.bend",
+      "sha256": "731b2aff1322b4a79e1d7197713d1528f399bdf2641ff4163460b53b6cf52e37",
+      "classification": "malformed-syntax",
+      "reason": "Dotted name includes a digit-headed segment.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/parse/decl_name_words.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L1593-L1605",
+        "Official book_load diagnostic: Error:\n- expected : a name (words joined by dots, got 'Vec.2d')\n- observed : 'Vec.2d'\nLocation:\n4 | \n5>| def Vec.2d() -> U32:\n  |     ^^^^^^\n6 |   0"
+      ]
+    },
+    {
+      "file": "tests/parse/do_bind_continuation.bend",
+      "sha256": "6b3ce2814ce797abfeaa2be21002359f96005817a72eed5a083085ac3e724349",
+      "classification": "malformed-syntax",
+      "reason": "A do bind has no required continuation.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/parse/do_bind_continuation.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L2269-L2275",
+        "Official book_load diagnostic: Error:\n- expected : a term\n- observed : end of input\nLocation:\n21 | #|exit 1\n22>| \n   | ^"
+      ]
+    },
+    {
       "file": "tests/parse/do_missing_param.bend",
       "sha256": "1fb13600c5cfc4f9e340f79e03d536d86ac6636eb25943eb53fe4e61399f322e",
       "classification": "malformed-syntax",
@@ -907,6 +1050,17 @@
       ]
     },
     {
+      "file": "tests/parse/keyword_reserved.bend",
+      "sha256": "20d54d06d4dc4c504fb9644a961e8bca9d9e767ab59d1ab3d3e90c7b3dbb159d",
+      "classification": "malformed-syntax",
+      "reason": "Reserved words cannot be declaration/binder names or head ordinary terms.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/parse/keyword_reserved.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L1506-L1614",
+        "Official book_load diagnostic: Error:\n- expected : a name (got the keyword 'law')\n- observed : 'law'\nLocation:\n5 | # free: only book_load's import line reads it, never parse_name.\n6>| law law : Type\n  |     ^^^\n7 | def law(): Type"
+      ]
+    },
+    {
       "file": "tests/parse/legacy_bang_statement.bend",
       "sha256": "a656bf198580915720faff5a18134ecaee117cb610c74b8d5a1737f0d5517a74",
       "classification": "malformed-syntax",
@@ -962,6 +1116,61 @@
       ]
     },
     {
+      "file": "tests/parse/reserved_assert_name.bend",
+      "sha256": "75144bae78646441ec12817bffbca1f180cc75b05c784a009de4ba85cc9f92ae",
+      "classification": "malformed-syntax",
+      "reason": "Reserved words cannot be declaration/binder names or head ordinary terms.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/parse/reserved_assert_name.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L1506-L1614",
+        "Official book_load diagnostic: Error:\n- expected : a name (got the keyword 'match')\n- observed : 'match'\nLocation:\n2 | # ported from bend3\n3>| law match:\n  |     ^^^^^\n4 |   Unit"
+      ]
+    },
+    {
+      "file": "tests/parse/reserved_ctor_field_000.bend",
+      "sha256": "34446eaf75773219ff2a3a9d08e16696354dfe360247ba91ec3b5626f2b187e4",
+      "classification": "malformed-syntax",
+      "reason": "Reserved words cannot be declaration/binder names or head ordinary terms.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/parse/reserved_ctor_field_000.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L1506-L1614",
+        "Official book_load diagnostic: Error:\n- expected : a name (got the keyword 'Type')\n- observed : 'Type'\nLocation:\n3 | type Kk8 is Data:\n4>|   Mk8{Type: Kk8}\n  |       ^^^^\n5 | "
+      ]
+    },
+    {
+      "file": "tests/parse/reserved_ctor_field_001.bend",
+      "sha256": "908773318946de4e87bdcd7ddff7412144b8f180278e36b84d9cdcf8ce603710",
+      "classification": "malformed-syntax",
+      "reason": "Reserved words cannot be declaration/binder names or head ordinary terms.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/parse/reserved_ctor_field_001.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L1506-L1614",
+        "Official book_load diagnostic: Error:\n- expected : a name (got the keyword 'match')\n- observed : 'match'\nLocation:\n4 | type Kk9 is Data:\n5>|   Mk9{match: Unit}\n  |       ^^^^^\n6 | "
+      ]
+    },
+    {
+      "file": "tests/parse/reserved_def_name_001.bend",
+      "sha256": "735448a17d752980e08f1de456b4ce2e327b35926445c349d0e9d08d49518cb3",
+      "classification": "malformed-syntax",
+      "reason": "Reserved words cannot be declaration/binder names or head ordinary terms.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/parse/reserved_def_name_001.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L1506-L1614",
+        "Official book_load diagnostic: Error:\n- expected : a name (got the keyword 'match')\n- observed : 'match'\nLocation:\n2 | # ported from bend3\n3>| def match(x):\n  |     ^^^^^\n4 |   x"
+      ]
+    },
+    {
+      "file": "tests/parse/reserved_def_name_002.bend",
+      "sha256": "6eb55a896dcb7e5bc58ea4bae304e2db251acde8996171704716526e17effdae",
+      "classification": "malformed-syntax",
+      "reason": "Reserved words cannot be declaration/binder names or head ordinary terms.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/parse/reserved_def_name_002.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L1506-L1614",
+        "Official book_load diagnostic: Error:\n- expected : a name (got the keyword 'match')\n- observed : 'match'\nLocation:\n3 | # ported from bend3\n4>| def match(): Unit{}\n  |     ^^^^^\n5 | "
+      ]
+    },
+    {
       "file": "tests/parse/reserved_dollar_name.bend",
       "sha256": "19ee3136b3270ae020d3231ea50c5b4091080a13d397753df46443754a943d16",
       "classification": "malformed-syntax",
@@ -995,6 +1204,17 @@
       ]
     },
     {
+      "file": "tests/parse/reserved_pattern_binder.bend",
+      "sha256": "bef385ce8700a5fe4557cfe5d9de85517a5040ba041626c7e9f80ed38b8121d4",
+      "classification": "malformed-syntax",
+      "reason": "Reserved words cannot be declaration/binder names or head ordinary terms.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/parse/reserved_pattern_binder.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L1506-L1614",
+        "Official book_load diagnostic: Error:\n- expected : a do-block heading this return\n- observed : 'return'\nLocation:\n12 |   match n:\n13>|     case Sx{return}:\n   |             ^^^^^^\n14 |       Zx{}"
+      ]
+    },
+    {
       "file": "tests/parse/reserved_pi_binder.bend",
       "sha256": "462d0ce8ab929bcc9101066e6d51611bc30e28cd85ec35c39bca80ea4e81e6d3",
       "classification": "malformed-syntax",
@@ -1025,6 +1245,17 @@
         "tests/parse/reserved_type_param.bend:4-5",
         "bend2/bend.ts:1506-1510,1609-1614,2386-2409,2512-2518",
         "Executed official book_load against the pinned source: - expected : a name (got the keyword 'match'); - observed : 'match'"
+      ]
+    },
+    {
+      "file": "tests/parse/type_arg_parens.bend",
+      "sha256": "9aa96156597e6b284b411232a0403ce14032a1ba907baacb74115eae30f69813",
+      "classification": "malformed-syntax",
+      "reason": "Compound first generic argument lacks parentheses.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/parse/type_arg_parens.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L2098-L2101",
+        "Official book_load diagnostic: Error:\n- expected : '>' or ',' (a compound type argument takes parens: F<(A & B)>)\n- observed : '&'\nLocation:\n 8 | \n 9>| def bad(r: Maybe<U32 & U32>) -> U32:\n   |                      ^\n10 |   0"
       ]
     },
     {
@@ -1162,6 +1393,17 @@
         "tests/reg/framed_cell_capture.bend:1-4,17-21",
         "bend2/bend.ts:2286-2309,2371-2380,1785-1787",
         "Official book_load of tests/reg/framed_cell_capture.bend rejects before checking/runtime; direct parse_body exercised: zero case rows and unconsumed framed heading suffix"
+      ]
+    },
+    {
+      "file": "tests/reg/import_head.bend",
+      "sha256": "42b846d8608569dcf9d20a63095194c2ab4a408173c4e0b69cd35df230eabb28",
+      "classification": "malformed-syntax",
+      "reason": "Module import form/order/suffix/path validation rejects this source before filesystem lookup.",
+      "evidence": [
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/tests/reg/import_head.bend",
+        "https://github.com/bendlang/bend/blob/79df8d9c40722ee9507a1e253f283b51025f9d6c/bend2/bend.ts#L968-L1013",
+        "Official book_load diagnostic: Error:\n- expected : an import ('import Base', or 'import <path> as <Name>')\n- observed : 'import Wat'\nLocation:\n3 | # the i\n4>| import Wat\n  |        ^\n5 | law main:"
       ]
     },
     {

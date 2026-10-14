@@ -20,7 +20,7 @@ from check_highlights import ROOT, fetch_grammar
 
 def main() -> None:
     manifest = tomllib.loads((ROOT / "extension.toml").read_text(encoding="utf-8"))
-    pin = manifest["grammars"]["bend"]
+    pin = manifest["grammars"]["bend2"]
     compiler = shlex.split(os.environ.get("CC", "cc"))
     if not compiler or shutil.which(compiler[0]) is None:
         raise RuntimeError("scanner checks require a C compiler; install one or set CC")

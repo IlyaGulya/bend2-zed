@@ -19,7 +19,7 @@ def load_language(grammar: Path, output: Path) -> Language:
         str(grammar / "src/parser.c"), str(grammar / "src/scanner.c"), "-o", str(output),
     ], check=True)
     library = ctypes.CDLL(str(output))
-    function = library.tree_sitter_bend
+    function = library.tree_sitter_bend2
     function.restype = ctypes.c_void_p
     # Language retains the grammar's static data; keep its library loaded.
     capsule_new = ctypes.pythonapi.PyCapsule_New
@@ -80,8 +80,8 @@ def run(grammar: Path, directory: Path) -> None:
     prefix = b"def before():\n  True{}\n"
     suffixes = [
         (b"def after(x: Nat) -> Nat:\n  consume(x)\n", "function_definition", b"after", "function"),
-        (b"type After is Data:\n  Done{}\n", "type_declaration", b"After", "type"),
-        (b"law After:\n  Type\n", "law_declaration", b"After", "function"),
+        (b"type After is Data:\n  Done{}\n", "type_definition", b"After", "type"),
+        (b"law After:\n  Type\n", "law_definition", b"After", "function"),
     ]
     count = 0
     for suffix, kind, name, capture in suffixes:
@@ -114,24 +114,49 @@ def run(grammar: Path, directory: Path) -> None:
                 for key, expected in baseline.items():
                     assert captures(queries[key], tree, source) == expected, "repair changed captures"
                 count += 1
-    # Damaged nested matches have weaker guarantees: keyword colors + repair,
-    # not preservation of later case-clause structure.
-    original = b'def broken():\n  match x:\n    case True{}:\n      row = String.append("a", String.append("b", String.append("c", String.append("d", "e"))))\n    case False{}: 0n\ndef after():\n  match x:\n    case True{}: 1n\n    case False{}: 0n\n'
-    tree = parser.parse(original)
-    assert not tree.root_node.has_error
-    pristine = shape(tree.root_node)
-    offset = original.index(b'"e"))))') + len(b'"e"))')
-    source = original
-    for _ in range(2):
-        source, tree = edit(parser, tree, source, offset, b"))", b"")
-        assert tree.root_node.has_error
-        got = captures(highlight, tree, source)
-        expected_cases = {i for i in range(len(source)) if source.startswith(b"case ", i)}
-        assert {start for c, start, _, text in got if c == "keyword" and text == b"case"} == expected_cases
-        assert any(c == "function" and text == b"after" for c, _, _, text in got)
-        source, tree = edit(parser, tree, source, offset, b"", b"))")
-        assert shape(tree.root_node) == pristine
-        count += 1
+    # A let-bound nested call needs a continuation. Keep the pristine arm valid
+    # so damage/repair checks measure recovery rather than pre-existing errors.
+    originals = [
+        b'def broken():\n  match x:\n    case True{}:\n      row = String.append("a", String.append("b", String.append("c", String.append("d", "e"))))\n      row\n    case False{}: 0n\ndef after():\n  match x:\n    case True{}: 1n\n    case False{}: 0n\n',
+        b'def broken():\n  match x:\n    case True{}:\n      match y:\n        case True{}:\n          row = String.append("a", String.append("b", String.append("c", String.append("d", "e"))))\n          row\n        case False{}: 2n\n    case False{}: 0n\ndef after():\n  match x:\n    case True{}: 1n\n    case False{}: 0n\n',
+    ]
+    for original in originals:
+        tree = parser.parse(original)
+        assert not tree.root_node.has_error, str(tree.root_node)
+        pristine = shape(tree.root_node)
+        baseline = {key: captures(query, tree, original) for key, query in queries.items()}
+        matches = [node for node in descendants(tree.root_node) if node.type == "match_expression"]
+        for match in matches:
+            assert len([child for child in match.named_children if child.type == "case_clause"]) == 2
+        if b"match y:" in original:
+            first_arm = next(child for child in matches[0].named_children if child.type == "case_clause")
+            assert any(node == matches[1] for node in descendants(first_arm)), "inner match escaped its case"
+        suffix_start = original.index(b"def after")
+        offset = original.index(b'"e"))))') + len(b'"e"))')
+        source = original
+        for _ in range(2):
+            source, tree = edit(parser, tree, source, offset, b"))", b"")
+            assert tree.root_node.has_error
+            got = captures(highlight, tree, source)
+            expected_cases = {i for i in range(len(source)) if source.startswith(b"case ", i)}
+            assert {start for c, start, _, text in got if c == "keyword" and text == b"case"} == expected_cases
+            assert any(c == "function" and text == b"after" for c, _, _, text in got)
+            after = next(node for node in tree.root_node.named_children
+                         if node.type == "function_definition"
+                         and (head := node.child_by_field_name("name")) is not None
+                         and source[head.start_byte:head.end_byte] == b"after")
+            assert not after.has_error
+            for key, expected in baseline.items():
+                retained = {(c, start - 2, end - 2, text) for c, start, end, text in expected if start >= suffix_start}
+                assert retained <= captures(queries[key], tree, source), (key, "following match captures lost")
+            intact_matches = [node for node in descendants(after) if node.type == "match_expression"]
+            assert len(intact_matches) == 1
+            assert len([child for child in intact_matches[0].named_children if child.type == "case_clause"]) == 2
+            source, tree = edit(parser, tree, source, offset, b"", b"))")
+            assert shape(tree.root_node) == pristine
+            for key, expected in baseline.items():
+                assert captures(queries[key], tree, source) == expected, (key, "repair changed captures")
+            count += 1
     # Consistency alone is not a guarantee of error locality or useful captures.
     rng = random.Random(20261004)
     edits = 0
@@ -157,7 +182,7 @@ def run(grammar: Path, directory: Path) -> None:
 
 
 def main():
-    manifest = tomllib.loads((ROOT / "extension.toml").read_text())["grammars"]["bend"]
+    manifest = tomllib.loads((ROOT / "extension.toml").read_text())["grammars"]["bend2"]
     with tempfile.TemporaryDirectory(prefix="bend-recovery-") as name:
         directory = Path(name)
         grammar = fetch_grammar(manifest["repository"], manifest["rev"], directory)

@@ -4,3 +4,5 @@
 /.venv/
 /tests/__pycache__/
 /build/
+/zed/
+/tree-sitter-bend2-soulthym/

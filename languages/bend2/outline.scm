@@ -1,11 +1,11 @@
 (function_definition
   name: (_) @name) @item
 
-(law_declaration
+(law_definition
   name: (_) @name) @item
 
-(type_declaration
+(type_definition
   name: (_) @name) @item
 
-(constructor_declaration
+(constructor_definition
   name: (_) @name) @item

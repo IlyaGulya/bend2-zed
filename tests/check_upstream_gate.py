@@ -23,16 +23,20 @@ class ReviewGate(unittest.TestCase):
         self.assertFalse(rejected["passed"])
         self.assertEqual(rejected["accepted_regressions"], ["fixture.bend"])
 
-    def test_malformed_syntax_becoming_accepted_requires_review(self):
+    def test_malformed_syntax_false_acceptance_fails_release(self):
         self.assertTrue(self.gate("malformed-syntax", "rejected")["passed"])
         accepted = self.gate("malformed-syntax", "accepted")
         self.assertFalse(accepted["passed"])
-        self.assertEqual(accepted["formerly_rejected_accepted"], ["fixture.bend"])
+        self.assertEqual(accepted["malformed_syntax_accepted"], ["fixture.bend"])
 
     def test_known_valid_gap_never_passes_as_expected_rejection(self):
         rejected = self.gate("valid-source-grammar-gap", "rejected")
         self.assertFalse(rejected["passed"])
         self.assertEqual(rejected["valid_source_gaps"], ["fixture.bend"])
+        accepted = self.gate("valid-source-grammar-gap", "accepted")
+        self.assertFalse(accepted["passed"])
+        self.assertEqual(accepted["resolved_valid_source_gaps"], ["fixture.bend"])
+        self.assertEqual(accepted["malformed_syntax_accepted"], [])
 
     def test_timeout_is_not_a_syntax_rejection(self):
         failed = self.gate("malformed-syntax", "timeout")

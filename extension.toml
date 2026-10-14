@@ -5,9 +5,9 @@ schema_version = 1
 description = "Bend 2 syntax highlighting and language server support for Zed."
 repository = "https://github.com/IlyaGulya/bend2-zed"
 
-[grammars.bend]
-repository = "https://github.com/IlyaGulya/tree-sitter-bend2"
-rev = "5acf317455d55be8670287043a18f2f10e83fad8"
+[grammars.bend2]
+repository = "https://github.com/Soulthym/tree-sitter-bend2"
+rev = "997ec087147eb996731cc542ab4931b97049d2a1"
 
 [language_servers.bend2]
 name = "Bend 2 Language Server"

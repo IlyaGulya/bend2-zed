@@ -1,13 +1,29 @@
-use std::{env, path::PathBuf};
+use std::{env, fs::OpenOptions, io::Write, path::PathBuf};
 use zed_extension_api::{self as zed, settings::LspSettings, LanguageServerId, Result, Worktree};
 
-const RELEASE: &str = "v0.5.0";
+const RELEASE: &str = "v0.6.1";
+
+fn log_launch(message: std::fmt::Arguments<'_>) {
+    eprintln!("[bend2-zed] {message}");
+    let result = OpenOptions::new()
+        .create(true)
+        .append(true)
+        .open("launch.log")
+        .and_then(|mut file| writeln!(file, "[bend2-zed] {message}"));
+    if let Err(error) = result {
+        eprintln!("[bend2-zed] launch_log_write_failed error={error}");
+    }
+}
 
 struct Bend2Extension;
 
 impl Bend2Extension {
     fn server_path(&self, id: &LanguageServerId, worktree: &Worktree) -> Result<String> {
         if let Some(path) = worktree.which("bend2-lsp") {
+            log_launch(format_args!(
+                "server_selected lsp_id={} worktree_id={} source=PATH path={path:?}",
+                id.as_ref(), worktree.id()
+            ));
             return Ok(path);
         }
         let target = match zed::current_platform() {
@@ -27,6 +43,9 @@ impl Bend2Extension {
         let filename = format!("bend2-lsp-{RELEASE}-{target}{suffix}");
         let path = PathBuf::from(&filename);
         if !path.is_file() {
+            log_launch(format_args!(
+                "download_begin release={RELEASE} target={target} destination={filename:?}"
+            ));
             zed::set_language_server_installation_status(
                 id,
                 &zed::LanguageServerInstallationStatus::Downloading,
@@ -38,17 +57,24 @@ impl Bend2Extension {
             zed::download_file(&url, &temporary, zed::DownloadedFileType::Uncompressed)?;
             zed::make_file_executable(&temporary)?;
             std::fs::rename(&temporary, &path).map_err(|error| error.to_string())?;
+            log_launch(format_args!("download_complete release={RELEASE} target={target}"));
         }
-        Ok(env::current_dir()
+        let absolute_path = env::current_dir()
             .map_err(|error| error.to_string())?
             .join(path)
             .to_string_lossy()
-            .into_owned())
+            .into_owned();
+        log_launch(format_args!(
+            "server_selected lsp_id={} worktree_id={} source=release_cache release={RELEASE} target={target} path={absolute_path:?}",
+            id.as_ref(), worktree.id()
+        ));
+        Ok(absolute_path)
     }
 }
 
 impl zed::Extension for Bend2Extension {
     fn new() -> Self {
+        log_launch(format_args!("extension_loaded pinned_release={RELEASE} diagnostics_file=launch.log"));
         Self
     }
 
@@ -57,9 +83,35 @@ impl zed::Extension for Bend2Extension {
         id: &LanguageServerId,
         worktree: &Worktree,
     ) -> Result<zed::Command> {
-        let binary = LspSettings::for_worktree(id.as_ref(), worktree)?.binary;
+        log_launch(format_args!(
+            "resolving_server lsp_id={} worktree_id={} root={:?} pinned_release={RELEASE}",
+            id.as_ref(), worktree.id(), worktree.root_path()
+        ));
+        let binary = LspSettings::for_worktree(id.as_ref(), worktree)
+            .map_err(|error| {
+                log_launch(format_args!(
+                    "settings_read_failed lsp_id={} worktree_id={}",
+                    id.as_ref(), worktree.id()
+                ));
+                error
+            })?
+            .binary;
+        log_launch(format_args!(
+            "settings_resolved lsp_id={} worktree_id={} binary_path={:?} arguments_override={} env_override_count={}",
+            id.as_ref(),
+            worktree.id(),
+            binary.as_ref().and_then(|binary| binary.path.as_deref()),
+            binary.as_ref().is_some_and(|binary| binary.arguments.is_some()),
+            binary.as_ref().and_then(|binary| binary.env.as_ref()).map_or(0, |env| env.len())
+        ));
         let command = match binary.as_ref().and_then(|binary| binary.path.clone()) {
-            Some(path) => path,
+            Some(path) => {
+                log_launch(format_args!(
+                    "server_selected lsp_id={} worktree_id={} source=settings path={path:?}",
+                    id.as_ref(), worktree.id()
+                ));
+                path
+            }
             None => self.server_path(id, worktree)?,
         };
         let mut environment: std::collections::HashMap<_, _> =
@@ -86,7 +138,15 @@ impl zed::Extension for Bend2Extension {
         id: &LanguageServerId,
         worktree: &Worktree,
     ) -> Result<Option<zed::serde_json::Value>> {
-        Ok(LspSettings::for_worktree(id.as_ref(), worktree)?.settings)
+        let settings = LspSettings::for_worktree(id.as_ref(), worktree)?;
+        log_launch(format_args!(
+            "workspace_configuration lsp_id={} worktree_id={} root={:?} binary_path={:?}",
+            id.as_ref(),
+            worktree.id(),
+            worktree.root_path(),
+            settings.binary.as_ref().and_then(|binary| binary.path.as_deref())
+        ));
+        Ok(settings.settings)
     }
 }
 

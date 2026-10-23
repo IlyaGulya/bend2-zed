@@ -47,6 +47,12 @@ CLI verification passed the full `check_all.py --reference-dir /path/to/extracte
 
 Known limits: syntax recognition does not check constructor resolution/arity or other compiler-owned constraints; compiler diagnostics remain separate. Seeded incremental consistency alone does not prove useful recovery for every damaged buffer. Scanner state uses full-width columns and refuses new scopes when its bounded serialization capacity is exhausted rather than truncating the live stack; deep nesting can therefore be rejected. Standalone scanner fixtures cover ASCII, not Unicode/included ranges. Verification here is through CLI parser/query execution, not the actual Zed UI.
 
+## Publishing
+
+Submit the public extension commit through a submodule in the [Zed extension registry](https://github.com/zed-industries/extensions), with the same version as `extension.toml`. The manifest must include a non-empty `authors` list. Before submission, run the registry's `pnpm package-extensions bend2` validation with publishing disabled and manually smoke-test that commit in Zed.
+
+Follow the registry's [publishing prerequisites](https://zed.dev/docs/extensions/publishing/prerequisites) and [AI policy](https://github.com/zed-industries/extensions/blob/main/AI_POLICY.md); pull-request explanations and maintainer replies must be human-authored.
+
 ## Language-server scope
 
 The extension uses [the Rust bend2-lsp](https://github.com/IlyaGulya/bend2-lsp-rs), including completion, signature help, navigation, references, rename, formatting, semantic tokens, and compiler diagnostics. Source-based features are indexed, not compiler-derived type inference. Compiler checks require an installed `bend` CLI and are limited by its diagnostic output.

@@ -1,7 +1,7 @@
 use std::{env, fs::OpenOptions, io::Write, path::PathBuf};
 use zed_extension_api::{self as zed, settings::LspSettings, LanguageServerId, Result, Worktree};
 
-const RELEASE: &str = "v0.6.2";
+const RELEASE: &str = "v0.7.0";
 
 fn log_launch(message: std::fmt::Arguments<'_>) {
     eprintln!("[bend2-zed] {message}");
